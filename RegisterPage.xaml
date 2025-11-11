@@ -1,0 +1,57 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GeoTrackerApp3.Views.RegisterPage"
+             Title="Register">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
+            <Label Text="Create Account" FontSize="32" HorizontalOptions="Center" />
+
+            <Entry x:Name="FirstNameEntry"
+                   Placeholder="First Name"
+                   FontSize="18" />
+
+            <Entry x:Name="LastNameEntry"
+                   Placeholder="Last Name"
+                   FontSize="18" />
+
+            <Entry x:Name="PhoneEntry"
+                   Placeholder="Phone Number"
+                   Keyboard="Telephone"
+                   FontSize="18" />
+
+            <Entry x:Name="EmailEntry"
+                   Placeholder="Email Address"
+                   Keyboard="Email"
+                   FontSize="18" />
+
+            <Entry x:Name="PasswordEntry"
+                   Placeholder="Password"
+                   IsPassword="True"
+                   FontSize="18" />
+
+            <Entry x:Name="ConfirmPasswordEntry"
+                   Placeholder="Confirm Password"
+                   IsPassword="True"
+                   FontSize="18" />
+
+            <Button x:Name="RegisterButton"
+                    Text="Register"
+                    Clicked="OnRegisterClicked"
+                    FontSize="18"
+                    BackgroundColor="#007AFF"
+                    TextColor="White" />
+
+            <ActivityIndicator x:Name="BusyIndicator"
+                               IsVisible="False"
+                               IsRunning="False"
+                               HorizontalOptions="Center" />
+
+            <Button Text="Already have an account? Log In"
+                    Clicked="OnGoToLoginClicked"
+                    TextColor="Gray"
+                    FontAttributes="Italic"
+                    BackgroundColor="Transparent" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
