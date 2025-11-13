@@ -3,39 +3,71 @@
              x:Class="GeoTrackerApp3.Views.HomePage"
              Title="Home">
 
-    <VerticalStackLayout Padding="30" Spacing="20">
-        <Label Text="Welcome!" FontSize="28" HorizontalOptions="Center" />
+    <Grid Padding="30" RowSpacing="25"
+          RowDefinitions="Auto, Auto, *, Auto">
 
-        <Label x:Name="UserLabel" FontSize="18" HorizontalOptions="Center" />
+        <!-- Top section -->
+        <VerticalStackLayout Grid.Row="0" Spacing="15">
+            <Label Text="Welcome!" 
+                   FontSize="28" 
+                   HorizontalOptions="Center" />
 
-        <Label Text="Current Location:" FontSize="20" FontAttributes="Bold" />
+            <Frame x:Name="TrackingStatusFrame"
+                  BackgroundColor="#4CAF50"
+                  CornerRadius="8"
+                  Padding="6"
+                  HorizontalOptions="Center"
+                  Opacity="0">
+                <Label Text="Actively Sharing location..."
+                    TextColor="White"
+                    FontSize="14"
+                    HorizontalOptions="Center"/>
+            </Frame>
 
-        <Label x:Name="LatitudeLabel" Text="Latitude: ..." FontSize="18" />
-        <Label x:Name="LongitudeLabel" Text="Longitude: ..." FontSize="18" />
+        </VerticalStackLayout>
 
-        <Button x:Name="ToggleTrackingButton"
-                Text="Start Tracking"
-                Clicked="OnToggleTrackingClicked"
-                BackgroundColor="#4CAF50"
+        <!-- Middle section (takes up remaining space) -->
+        <VerticalStackLayout Grid.Row="2"
+                             VerticalOptions="CenterAndExpand"
+                             Spacing="20">
+
+            <Label Text="Current Location:" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" />
+
+            <Label x:Name="LatitudeLabel" 
+                   Text="Latitude: ..." 
+                   FontSize="18"
+                   HorizontalOptions="Center" />
+
+            <Label x:Name="LongitudeLabel" 
+                   Text="Longitude: ..." 
+                   FontSize="18"
+                   HorizontalOptions="Center" />
+
+            <Button x:Name="ToggleTrackingButton"
+                    Text="Start Tracking"
+                    Clicked="OnToggleTrackingClicked"
+                    BackgroundColor="#4CAF50"
+                    TextColor="White"
+                    CornerRadius="8"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    WidthRequest="200"
+                    HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <!-- Bottom button (pinned at bottom) -->
+        <Button Text="Log Out"
+                Grid.Row="3"
+                Clicked="OnLogoutClicked"
+                BackgroundColor="#FF3B30"
                 TextColor="White"
+                HeightRequest="50"
                 CornerRadius="8"
-                FontAttributes="Bold"
-                HeightRequest="50" />
-
-        <Frame x:Name="TrackingStatusFrame"
-               IsVisible="False"
-               BackgroundColor="#4CAF50"
-               CornerRadius="8"
-               Padding="6"
-               HorizontalOptions="Center">
-            <Label Text="Actively sharing location"
-                   TextColor="White"
-                   FontSize="14"
-                   HorizontalOptions="Center"/>
-        </Frame>
-
-
-        <Button Text="Refresh Now" Clicked="OnRefreshClicked" />
-        <Button Text="Log Out" Clicked="OnLogoutClicked" BackgroundColor="#FF3B30" TextColor="White"/>
-    </VerticalStackLayout>
+                Margin="0,20,0,0"
+                VerticalOptions="End"
+                HorizontalOptions="FillAndExpand"/>
+    </Grid>
 </ContentPage>

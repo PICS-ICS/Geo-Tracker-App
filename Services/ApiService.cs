@@ -30,6 +30,20 @@ namespace GeoTrackerApp3.Services
             _httpClient.DefaultRequestHeaders.Accept.Clear();
         }
 
+        public static async Task<string> GetPublicIpAddressAsync()
+        {
+            try
+            {
+                using var client = new HttpClient();
+                return await client.GetStringAsync("https://api.ipify.org");
+            }
+            catch
+            {
+                return "Unknown";
+            }
+        }
+
+
 
         public static async Task<ApiResult> RegisterAsync(RegisterRequest request)
         {
@@ -100,6 +114,8 @@ namespace GeoTrackerApp3.Services
             try
             {
                 AddAuthorizationHeader(token);
+
+                request.ipAddress = await GetPublicIpAddressAsync();
 
                 var response = await _httpClient.PostAsJsonAsync("/api/Location/PingLocation", request);
 

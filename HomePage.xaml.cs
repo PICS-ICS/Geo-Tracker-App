@@ -1,9 +1,10 @@
-﻿using System;
-using System.Net.Http.Headers;
+﻿using GeoTrackerApp3.Services;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Devices.Sensors;
 using Microsoft.Maui.Storage;
-using GeoTrackerApp3.Services;
+using System;
+using System.ComponentModel.Design;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,9 +22,6 @@ namespace GeoTrackerApp3.Views
         public HomePage()
         {
             InitializeComponent();
-
-            _username = Preferences.Get("Username", "Unknown");
-            UserLabel.Text = $"Hello, {_username}!";
 
             try
             {
@@ -50,9 +48,9 @@ namespace GeoTrackerApp3.Views
 
                 ToggleTrackingButton.Text = "Stop Tracking";
                 ToggleTrackingButton.BackgroundColor = Colors.Red;
-                TrackingStatusFrame.IsVisible = true;
 
-                await DisplayAlert("Tracking", "Live location tracking started.", "OK");
+                // Smoothly show the status frame
+                await TrackingStatusFrame.FadeTo(1, 300, Easing.Linear);
 
                 _ = StartTrackingAsync(_cts.Token);
             }
@@ -64,11 +62,12 @@ namespace GeoTrackerApp3.Views
 
                 ToggleTrackingButton.Text = "Start Tracking";
                 ToggleTrackingButton.BackgroundColor = Color.FromArgb("#4CAF50");
-                TrackingStatusFrame.IsVisible = false;
 
-                await DisplayAlert("Tracking", "Live location tracking stopped.", "OK");
+                // Smoothly hide the status frame
+                await TrackingStatusFrame.FadeTo(0, 300, Easing.Linear);
             }
         }
+
 
         private async Task StartTrackingAsync(CancellationToken token)
         {
@@ -87,10 +86,10 @@ namespace GeoTrackerApp3.Views
             }
         }
 
-        private async void OnRefreshClicked(object sender, EventArgs e)
-        {
-            await GetAndSendLocationAsync();
-        }
+       // private async void OnRefreshClicked(object sender, EventArgs e)
+       // {
+       //     await GetAndSendLocationAsync();
+       // }
 
         private async Task GetAndSendLocationAsync()
         {
@@ -126,8 +125,11 @@ namespace GeoTrackerApp3.Views
                         memberID = Convert.ToInt32(memberID),
                         companyID = Convert.ToInt32(companyID),
                         latitude = location.Latitude,
-                        longatude = location.Longitude,
-                        pingTime = DateTime.Now
+                        longitude = location.Longitude,
+                        pingTime = DateTime.UtcNow,
+                        ipAddress = "Unknown", 
+                        deviceOS = DeviceInfo.Platform.ToString(), 
+                        deviceType = DeviceInfo.Model
                     };
 
                     var result = await ApiService.SendLocationAsync(data, token);

@@ -23,9 +23,13 @@ namespace GeoTrackerApp3.Models
         public int memberID { get; set; }
         public int companyID { get; set; }
         public double latitude { get; set; }
-        public double longatude { get; set; }
+        public double longitude { get; set; }
         public DateTime pingTime { get; set; }
+        public string ipAddress { get; set; } = string.Empty;
+        public string deviceOS { get; set; } = string.Empty;
+        public string deviceType { get; set; } = string.Empty;
     }
+
 
     public class AuthResponse
     {
