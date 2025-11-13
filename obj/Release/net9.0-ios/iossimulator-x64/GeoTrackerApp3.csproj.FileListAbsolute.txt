@@ -259,10 +259,11 @@ C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\m
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\mauisplash.inputs
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\resizetizer\sp\MauiInfo.plist
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\resizetizer\sp\MauiSplash.storyboard
-C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\resizetizer\sp\splash_58C11A0A2CDF3C43117FC29EECA319E6FBFEFE150B9123BB20E86A467F499449.png
-C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\resizetizer\sp\splash_58C11A0A2CDF3C43117FC29EECA319E6FBFEFE150B9123BB20E86A467F499449@2x.png
-C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\resizetizer\sp\splash_58C11A0A2CDF3C43117FC29EECA319E6FBFEFE150B9123BB20E86A467F499449@3x.png
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\resizetizer\sp\splash_B0F72C870CD6852596785C9E5EAF2D34560C4F22F120DD84BAA17D4723948626.png
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\resizetizer\sp\splash_B0F72C870CD6852596785C9E5EAF2D34560C4F22F120DD84BAA17D4723948626@2x.png
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\resizetizer\sp\splash_B0F72C870CD6852596785C9E5EAF2D34560C4F22F120DD84BAA17D4723948626@3x.png
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\mauisplash.stamp
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\resizetizer\r\Resources\icsflow_logo.png
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\resizetizer\r\Assets.xcassets\appicon.appiconset\appiconItunesArtwork.png
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\resizetizer\r\Assets.xcassets\appicon.appiconset\appicon83.5x83.5@2x.png
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\resizetizer\r\Assets.xcassets\appicon.appiconset\appicon76x76@2x.png
@@ -301,6 +302,7 @@ C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\G
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\GeoTrackerApp3.AssemblyInfoInputs.cache
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\GeoTrackerApp3.AssemblyInfo.cs
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\GeoTrackerApp3.csproj.CoreCompileInputs.cache
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\GeoTrackerApp3.sourcelink.json
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\XamlC.stamp
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\GeoTrack.F5B56A95.Up2Date
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-ios\iossimulator-x64\GeoTrackerApp3.dll

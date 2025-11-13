@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Devices.Sensors;
 using Microsoft.Maui.Storage;
 using GeoTrackerApp3.Services;
-using System.ComponentModel.Design;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GeoTrackerApp3.Views
 {
@@ -15,11 +15,13 @@ namespace GeoTrackerApp3.Views
         private string _username;
         private string _token;
 
+        private bool _isTracking = false;
+        private CancellationTokenSource _cts;
+
         public HomePage()
         {
             InitializeComponent();
 
-            // Load username and token
             _username = Preferences.Get("Username", "Unknown");
             UserLabel.Text = $"Hello, {_username}!";
 
@@ -36,21 +38,53 @@ namespace GeoTrackerApp3.Views
             {
                 _token = string.Empty;
             }
-
-            // Start tracking
-            StartTracking();
         }
 
-        private void StartTracking()
+        private async void OnToggleTrackingClicked(object sender, EventArgs e)
         {
-            _ = GetAndSendLocationAsync();
-
-            // Repeat every 5 minutes
-            Device.StartTimer(TimeSpan.FromSeconds(10), () =>
+            if (!_isTracking)
             {
-                _ = GetAndSendLocationAsync();
-                return true;
-            });
+                // --- START TRACKING ---
+                _isTracking = true;
+                _cts = new CancellationTokenSource();
+
+                ToggleTrackingButton.Text = "Stop Tracking";
+                ToggleTrackingButton.BackgroundColor = Colors.Red;
+                TrackingStatusFrame.IsVisible = true;
+
+                await DisplayAlert("Tracking", "Live location tracking started.", "OK");
+
+                _ = StartTrackingAsync(_cts.Token);
+            }
+            else
+            {
+                // --- STOP TRACKING ---
+                _isTracking = false;
+                _cts?.Cancel();
+
+                ToggleTrackingButton.Text = "Start Tracking";
+                ToggleTrackingButton.BackgroundColor = Color.FromArgb("#4CAF50");
+                TrackingStatusFrame.IsVisible = false;
+
+                await DisplayAlert("Tracking", "Live location tracking stopped.", "OK");
+            }
+        }
+
+        private async Task StartTrackingAsync(CancellationToken token)
+        {
+            while (!token.IsCancellationRequested)
+            {
+                await GetAndSendLocationAsync();
+
+                try
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(10), token);
+                }
+                catch (TaskCanceledException)
+                {
+                    break;
+                }
+            }
         }
 
         private async void OnRefreshClicked(object sender, EventArgs e)
@@ -62,7 +96,6 @@ namespace GeoTrackerApp3.Views
         {
             try
             {
-                // Check location permission
                 var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
                 if (status != PermissionStatus.Granted)
                     status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
@@ -78,20 +111,9 @@ namespace GeoTrackerApp3.Views
                     LatitudeLabel.Text = $"Latitude: {location.Latitude}";
                     LongitudeLabel.Text = $"Longitude: {location.Longitude}";
 
-                    // Get the token from SecureStorage
-                    string token = string.Empty;
-                    string memberID = string.Empty;
-                    string companyID = string.Empty;
-                    try
-                    {
-                        token = await SecureStorage.GetAsync("api_token") ?? string.Empty;
-                        memberID = await SecureStorage.GetAsync("logged_in_memberID") ?? string.Empty;
-                        companyID = await SecureStorage.GetAsync("logged_in_companyID") ?? string.Empty;
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"SecureStorage error: {ex.Message}");
-                    }
+                    string token = await SecureStorage.GetAsync("api_token") ?? string.Empty;
+                    string memberID = await SecureStorage.GetAsync("logged_in_memberID") ?? string.Empty;
+                    string companyID = await SecureStorage.GetAsync("logged_in_companyID") ?? string.Empty;
 
                     if (string.IsNullOrEmpty(token))
                     {
@@ -101,7 +123,7 @@ namespace GeoTrackerApp3.Views
 
                     var data = new Models.LocationData
                     {
-                        memberID = Convert.ToInt32(memberID), 
+                        memberID = Convert.ToInt32(memberID),
                         companyID = Convert.ToInt32(companyID),
                         latitude = location.Latitude,
                         longatude = location.Longitude,
@@ -132,7 +154,6 @@ namespace GeoTrackerApp3.Views
 
             Preferences.Remove("Username");
 
-            // Go back to login page (reset stack)
             Application.Current.MainPage = new NavigationPage(new LoginPage());
         }
     }

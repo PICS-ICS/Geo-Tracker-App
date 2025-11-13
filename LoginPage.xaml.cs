@@ -14,6 +14,35 @@ namespace GeoTrackerApp3.Views
 {
     public partial class LoginPage : ContentPage
     {
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+#if ANDROID
+    // Step 1: Check current permission status
+    var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+
+    // Step 2: Request permission if not granted
+    if (status != PermissionStatus.Granted)
+    {
+        status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+    }
+
+    // Step 3: If permission denied, stop
+    if (status != PermissionStatus.Granted)
+    {
+        await DisplayAlert("Permission required",
+            "Location permission is required to track your location.", "OK");
+        return; // Do not start the service
+    }
+
+    // Step 4: Permission granted → start foreground service
+    var context = Android.App.Application.Context;
+    var intent = new Intent(context, typeof(LocationForegroundService));
+    context.StartForegroundService(intent);
+#endif
+        }
+
         public LoginPage()
         {
             InitializeComponent();
@@ -30,6 +59,7 @@ namespace GeoTrackerApp3.Views
 
         private async void OnLoginClicked(object sender, EventArgs e)
         {
+
             var email = EmailEntry.Text?.Trim();
             var password = PasswordEntry.Text;
 
@@ -61,23 +91,6 @@ namespace GeoTrackerApp3.Views
                 {
                     // Navigate to HomePage (replace stack so user can't go back to login)
                     Application.Current.MainPage = new NavigationPage(new HomePage());
-
-#if ANDROID
-                    var status = await Permissions.CheckStatusAsync<Permissions.LocationAlways>();
-                    if (status != PermissionStatus.Granted)
-                        status = await Permissions.RequestAsync<Permissions.LocationAlways>();
-
-                    if (status != PermissionStatus.Granted)
-                    {
-                        await DisplayAlert("Permission required", "Location permission is required to track your location.", "OK");
-                        return; // Don't start the service if permission is denied
-                    }
-
-                    // Now start the foreground service
-                    var context = Android.App.Application.Context;
-                    var intent = new Intent(context, typeof(LocationForegroundService));
-                    context.StartForegroundService(intent);
-#endif
                 }
                 else
                 {

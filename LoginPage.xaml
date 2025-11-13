@@ -5,6 +5,13 @@
              Title="Login">
     <ScrollView>
         <VerticalStackLayout Padding="30" Spacing="18" VerticalOptions="Center">
+
+            <Image
+                Source="icsflow_logo.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+
             <Label Text="Welcome back" FontSize="28" HorizontalOptions="Center" />
 
             <Entry x:Name="EmailEntry"

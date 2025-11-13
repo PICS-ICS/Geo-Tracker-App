@@ -950,3 +950,7 @@ C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\stamp\_ConvertRe
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\stamp\_GenerateJavaStubs.stamp
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\stamp\_ResolveLibraryProjectImports.stamp
+C:\Users\vissi\projects\GeoTrackerApp3\bin\Debug\net9.0-android\Microsoft.VisualStudio.DesignTools.XamlTapContract.dll
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\resizetizer\r\drawable\icsflow_logo.png
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\GeoTrackerApp3.sourcelink.json
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\android\assets\x86_64\Microsoft.VisualStudio.DesignTools.XamlTapContract.dll

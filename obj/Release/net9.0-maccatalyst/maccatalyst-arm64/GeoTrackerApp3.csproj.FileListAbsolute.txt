@@ -274,3 +274,5 @@ C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-maccatalyst\maccatalys
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-maccatalyst\maccatalyst-arm64\GeoTrackerApp3.pdb
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-maccatalyst\maccatalyst-arm64\GeoTrackerApp3.genruntimeconfig.cache
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-maccatalyst\maccatalyst-arm64\ref\GeoTrackerApp3.dll
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-maccatalyst\maccatalyst-arm64\GeoTrackerApp3.sourcelink.json
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Release\net9.0-maccatalyst\maccatalyst-arm64\resizetizer\r\Resources\icsflow_logo.png
