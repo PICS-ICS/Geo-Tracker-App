@@ -9,23 +9,36 @@ namespace GeoTrackerApp3.Services
     public static class ApiService
     {
         // Replace with your real API base address
-        private static readonly string BaseUrl = "http://picsapi.ics.co.za";
+        // Use 10.0.2.2 for Android Emulator to access host machine's localhost
+        // Use actual IP for physical devices on same network
+#if ANDROID
+        private static readonly string BaseUrl = "https://picsapiqa.ics.co.za";
+#else
+        private static readonly string BaseUrl = "https://picsapiqa.ics.co.za";
+#endif
 
         private static readonly HttpClient _httpClient;
 
-        //static ApiService()
-        //{
-        //    _httpClient.BaseAddress = new Uri(BaseUrl);
-        //    _httpClient.DefaultRequestHeaders.Accept.Clear();
-        //}
-
         static ApiService()
         {
+#if DEBUG && ANDROID
+            // ONLY FOR DEVELOPMENT - bypasses SSL validation for self-signed certificates
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+            };
+            _httpClient = new HttpClient(handler)
+            {
+                BaseAddress = new Uri(BaseUrl),
+                Timeout = TimeSpan.FromSeconds(30)
+            };
+#else
             _httpClient = new HttpClient
             {
                 BaseAddress = new Uri(BaseUrl),
                 Timeout = TimeSpan.FromSeconds(30)
             };
+#endif
 
             _httpClient.DefaultRequestHeaders.Accept.Clear();
         }
@@ -113,11 +126,25 @@ namespace GeoTrackerApp3.Services
         {
             try
             {
-                AddAuthorizationHeader(token);
+                if (string.IsNullOrEmpty(token))
+                {
+                    return ApiResult.Failure("No authentication token provided.");
+                }
 
                 request.ipAddress = await GetPublicIpAddressAsync();
 
-                var response = await _httpClient.PostAsJsonAsync("/api/Location/PingLocation", request);
+                // Create the request message explicitly
+                using var requestMessage = new HttpRequestMessage(HttpMethod.Post, "/api/LocationPings/Create");
+
+                // Set the authorization header on the request
+                requestMessage.Headers.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+                // Set the content
+                requestMessage.Content = JsonContent.Create(request);
+
+                // Send the request
+                var response = await _httpClient.SendAsync(requestMessage);
 
                 if (response.IsSuccessStatusCode)
                 {

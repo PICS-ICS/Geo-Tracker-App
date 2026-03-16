@@ -9,6 +9,7 @@ C:\Users\vissi\projects\GeoTrackerApp3\bin\Debug\net9.0-android\com.companyname.
 C:\Users\vissi\projects\GeoTrackerApp3\bin\Debug\net9.0-android\Microsoft.Maui.Controls.HotReload.Forms.dll
 C:\Users\vissi\projects\GeoTrackerApp3\bin\Debug\net9.0-android\Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll
 C:\Users\vissi\projects\GeoTrackerApp3\bin\Debug\net9.0-android\Microsoft.VisualStudio.DesignTools.TapContract.dll
+C:\Users\vissi\projects\GeoTrackerApp3\bin\Debug\net9.0-android\Microsoft.VisualStudio.DesignTools.XamlTapContract.dll
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\.NETCoreApp,Version=v9.0.AssemblyAttributes.cs
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\build.props
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\adb.props
@@ -30,6 +31,7 @@ C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\mauifont.stamp
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\resizetizer\f\FluentUI.cs
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\resizetizer\f\OpenSans-Regular.ttf
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\resizetizer\f\OpenSans-Semibold.ttf
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\resizetizer\r\drawable\icsflow_logo.png
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\resizetizer\r\drawable-xxxhdpi\dotnet_bot.png
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\resizetizer\r\drawable-xxhdpi\dotnet_bot.png
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\resizetizer\r\drawable-xhdpi\dotnet_bot.png
@@ -130,6 +132,7 @@ C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\GeoTrackerApp3.G
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\GeoTrackerApp3.AssemblyInfoInputs.cache
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\GeoTrackerApp3.AssemblyInfo.cs
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\GeoTrackerApp3.csproj.CoreCompileInputs.cache
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\GeoTrackerApp3.sourcelink.json
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\XamlC.stamp
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\GeoTrack.F5B56A95.Up2Date
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\GeoTrackerApp3.dll
@@ -141,6 +144,7 @@ C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\android\bin\base
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\android\bin\com.companyname.geotrackerapp3.aab
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\android\bin\com.companyname.geotrackerapp3.apks
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\res\values\colors.xml
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\res\xml\network_security_config.xml
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\uploadflags.txt
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\resolvedassemblies.hash
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\android\assets\x86_64\ar\Microsoft.Maui.Controls.resources.dll
@@ -194,6 +198,7 @@ C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\android\assets\x
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\android\assets\x86_64\Microsoft.VisualBasic.dll
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\android\assets\x86_64\Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\android\assets\x86_64\Microsoft.VisualStudio.DesignTools.TapContract.dll
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\android\assets\x86_64\Microsoft.VisualStudio.DesignTools.XamlTapContract.dll
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\android\assets\x86_64\Microsoft.Win32.Primitives.dll
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\android\assets\x86_64\Microsoft.Win32.Registry.dll
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\android\assets\x86_64\Mono.Android.dll
@@ -950,7 +955,3 @@ C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\stamp\_ConvertRe
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\stamp\_GenerateJavaStubs.stamp
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\stamp\_ResolveLibraryProjectImports.stamp
-C:\Users\vissi\projects\GeoTrackerApp3\bin\Debug\net9.0-android\Microsoft.VisualStudio.DesignTools.XamlTapContract.dll
-C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\resizetizer\r\drawable\icsflow_logo.png
-C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\GeoTrackerApp3.sourcelink.json
-C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\android\assets\x86_64\Microsoft.VisualStudio.DesignTools.XamlTapContract.dll

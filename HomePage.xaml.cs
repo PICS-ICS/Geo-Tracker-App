@@ -124,12 +124,12 @@ namespace GeoTrackerApp3.Views
                     {
                         memberID = Convert.ToInt32(memberID),
                         companyID = Convert.ToInt32(companyID),
-                        latitude = location.Latitude,
-                        longitude = location.Longitude,
+                        lat = location.Latitude,
+                        lon = location.Longitude,
                         pingTime = DateTime.UtcNow,
                         ipAddress = "Unknown", 
                         deviceOS = DeviceInfo.Platform.ToString(), 
-                        deviceType = DeviceInfo.Model
+                        deviceModel = DeviceInfo.Model
                     };
 
                     var result = await ApiService.SendLocationAsync(data, token);

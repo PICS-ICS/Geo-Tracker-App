@@ -18,7 +18,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GeoTrackerApp3")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+2b59b8fe7661d3208cd2b4cf7b39fea12d718089")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+6e4b471c32acdf9f91e2de217200b604858bc920")]
 [assembly: System.Reflection.AssemblyProductAttribute("GeoTrackerApp3")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GeoTrackerApp3")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

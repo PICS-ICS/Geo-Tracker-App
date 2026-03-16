@@ -81,8 +81,8 @@ namespace GeoTrackerApp3.Views
 
                 var request = new LoginRequest
                 {
-                    UsernameOrEmail = email,
-                    Password = password
+                    UserName = email,
+                    password = password
                 };
 
                 var result = await ApiService.LoginAsync(request);

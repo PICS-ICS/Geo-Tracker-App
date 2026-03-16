@@ -1,2 +1,2 @@
-AdbTarget=-s R83W402RZVV
+AdbTarget=-s emulator-5554
 AdbOptions=

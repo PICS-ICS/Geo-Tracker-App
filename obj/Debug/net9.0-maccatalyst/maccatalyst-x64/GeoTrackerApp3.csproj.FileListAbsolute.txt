@@ -250,6 +250,7 @@ C:\Users\vissi\projects\GeoTrackerApp3\bin\Debug\net9.0-maccatalyst\maccatalyst-
 C:\Users\vissi\projects\GeoTrackerApp3\bin\Debug\net9.0-maccatalyst\maccatalyst-x64\Microsoft.Maui.Controls.HotReload.Forms.dll
 C:\Users\vissi\projects\GeoTrackerApp3\bin\Debug\net9.0-maccatalyst\maccatalyst-x64\Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll
 C:\Users\vissi\projects\GeoTrackerApp3\bin\Debug\net9.0-maccatalyst\maccatalyst-x64\Microsoft.VisualStudio.DesignTools.TapContract.dll
+C:\Users\vissi\projects\GeoTrackerApp3\bin\Debug\net9.0-maccatalyst\maccatalyst-x64\Microsoft.VisualStudio.DesignTools.XamlTapContract.dll
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\GeoTrackerApp3.csproj.AssemblyReference.cache
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\mauiimage.inputs
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\mauifont.inputs
@@ -267,6 +268,7 @@ C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\resizetizer\r\Assets.xcassets\appicon.appiconset\appicon20x20@3x.png
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\resizetizer\r\Assets.xcassets\appicon.appiconset\appicon20x20@2x.png
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\resizetizer\r\Assets.xcassets\appicon.appiconset\Contents.json
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\resizetizer\r\Resources\icsflow_logo.png
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\resizetizer\r\dotnet_bot@3x.png
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\resizetizer\r\dotnet_bot@2x.png
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\resizetizer\r\dotnet_bot.png
@@ -292,6 +294,7 @@ C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\GeoTrackerApp3.AssemblyInfoInputs.cache
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\GeoTrackerApp3.AssemblyInfo.cs
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\GeoTrackerApp3.csproj.CoreCompileInputs.cache
+C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\GeoTrackerApp3.sourcelink.json
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\XamlC.stamp
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\GeoTrack.F5B56A95.Up2Date
 C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-maccatalyst\maccatalyst-x64\GeoTrackerApp3.dll

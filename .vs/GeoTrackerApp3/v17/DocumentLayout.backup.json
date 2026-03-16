@@ -3,12 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\models\\models.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:models\\models.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\homepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:homepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\services\\locationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:services\\locationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\platforms\\android\\androidmanifest.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:platforms\\android\\androidmanifest.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\resources\\appicon\\appiconfg.svg||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
@@ -17,22 +41,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\homepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:homepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\services\\locationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:services\\locationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\models\\models.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:models\\models.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -47,12 +55,16 @@
       "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:platforms\\android\\locationforegroundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\platforms\\android\\androidmanifest.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:platforms\\android\\androidmanifest.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\geotrackerapp3.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
       "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:geotrackerapp3.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\platforms\\android\\resources\\xml\\network_security_config.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:platforms\\android\\resources\\xml\\network_security_config.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|c:\\users\\vissi\\projects\\geotrackerapp3\\geotrackerapp3.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A354DFD5-B314-7F03-2D00-3669930BDA07}|GeoTrackerApp3.csproj|solutionrelative:geotrackerapp3.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -61,8 +73,30 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "DockedWidth": 108,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{131369f2-062d-44a2-8671-91ff31efb4f4}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 902,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -82,46 +116,85 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
+              "Title": "ApiService.cs",
+              "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Services\\ApiService.cs",
+              "RelativeDocumentMoniker": "Services\\ApiService.cs",
+              "ToolTip": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Services\\ApiService.cs",
+              "RelativeToolTip": "Services\\ApiService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-10T11:01:54.984Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "GeoTrackerApp3",
+              "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\GeoTrackerApp3.csproj",
+              "RelativeDocumentMoniker": "GeoTrackerApp3.csproj",
+              "ToolTip": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\GeoTrackerApp3.csproj",
+              "RelativeToolTip": "GeoTrackerApp3.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAABBwFwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-16T12:51:55.952Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "network_security_config.xml",
+              "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Platforms\\Android\\Resources\\xml\\network_security_config.xml",
+              "RelativeDocumentMoniker": "Platforms\\Android\\Resources\\xml\\network_security_config.xml",
+              "ToolTip": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Platforms\\Android\\Resources\\xml\\network_security_config.xml",
+              "RelativeToolTip": "Platforms\\Android\\Resources\\xml\\network_security_config.xml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2026-03-16T12:51:28.377Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Models.cs",
               "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Models\\Models.cs",
               "RelativeDocumentMoniker": "Models\\Models.cs",
               "ToolTip": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Models\\Models.cs",
               "RelativeToolTip": "Models\\Models.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAIA/wBcAAAAqAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAtwB0AAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-13T07:54:03.964Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 3,
               "Title": "LoginPage.xaml.cs",
               "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\LoginPage.xaml.cs",
               "RelativeDocumentMoniker": "LoginPage.xaml.cs",
               "ToolTip": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\LoginPage.xaml.cs",
               "RelativeToolTip": "LoginPage.xaml.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAAAYwCEAAAAvAAAAAAAAAA==",
+              "ViewState": "AgIAAEoAAAAAAAAAAADgv1oAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-10T10:12:09.381Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 5,
               "Title": "LoginPage.xaml",
               "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\LoginPage.xaml",
               "RelativeDocumentMoniker": "LoginPage.xaml",
               "ToolTip": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\LoginPage.xaml",
               "RelativeToolTip": "LoginPage.xaml",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAACEAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAACEAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-11-10T20:30:44.401Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
               "Title": "appiconfg.svg",
               "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Resources\\AppIcon\\appiconfg.svg",
               "RelativeDocumentMoniker": "Resources\\AppIcon\\appiconfg.svg",
@@ -129,25 +202,11 @@
               "RelativeToolTip": "Resources\\AppIcon\\appiconfg.svg",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAAAoAAABWAAAAAAAAAA==",
               "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAQESURBVDhPrZRdbJNVHMZ/b/u26xfUbqPYbd2wIKxsbGDYpk6joISJCuIHRkyMVxpDNBpjQjDRZFfeaFiI3ojGS00MshgvIEQkYyTAnJMs4yPb2Nqt27p17d5\u002B0L7v23O8WDc28JIneXK\u002B/ufJ\u002BZ/znD88SEgplXvnurq6jjc2Nn5UWkdKuRQLgBCCfD5PNpvtPnr06JFoNBpbrXAPurq6hoQQolgs/i9N0xQDAwOir69PnDhx4tdwOLxl5X7rygFAR0fHkba2tkohwdRTiNw1lMwP6DM/Y0z9AcDwhMHOljacTmfIbrfXTE5OXkskEon7BO2tbyr1za1HbuTKKm9N9rLW/A7nzPeYsbOgbEHIIGb8EtFZqNvcis/nU10u16by8vLg9evXL6bT6fSioKLgfmy/r/bF975cE6h9viVss\u002B9efxzv9BkGRrfzm/YxI2WH2da8DzE7RMZwc7F/jP7\u002BfjRNs/p8vvCFCxd\u002BSaVSMRXA0bjXW3fgw8\u002Be21nz/mvbRlw7xeckbubozR7jVugVorqTSyPTZI0xXvc3UN\u002B8kRr86LqOx\u002BNhcHBwOUsLgL/jg/a28Lq3DzVcXtuS\u002B1RZGMgzqXSSW3cQWxbchknthiquzhbpST6CsqaWysoKAoEAXq8Xq9W67AILQF3Ac/Dl\u002BqGKJuMbZa7PwNX0E9seP8ihHQHeaqokMzWLz16G4nbSl7Axl7eUziNhhbUAVICt61JPP\u002BH90ZkZdfCt8QUTf9kwzH8RUiIR5IsqFaoFm93G6GyBZFqnaq0DKQHlrkcB1KqAan\u002B36UyNLTKinLd8Jd0te5SQtLAYTUlUYtzR0XWDgmliSllalsh7PoBl4kbtgc3i97IrmcNyqGJv8cqlm1KOjiNGxigO36Y4fBsxfBslOk51YZ5ngx78HntJbPUvAlClFntjZry6cL64CyMrVbfTZmkPVSo7qt14HSpa3uDyWJJIMgdSEvS58DjUpQQW73EF1PxEvj2ZLfuzd1rdWqum6taHqpWzUznO3ppB6gaqXaXoqSBZdDEfn\u002BcFi4LNcrcELKW8BIu5oDj3HSscjk3PfX1zaDQxPpWWunsN1G5A2fQoheo64lIhHk8Qcpi81Lgeu3Xple\u002BH9dg7\u002BJ95OBm62nujpy5gMzIpo17LCPdEfIHEXIo7iXls6QUaHlL5ZNdGyt12UJRlyyiKQiQS4fTp0yc1TYtZN1RxOTbN7rB95pnqeM9goKbZtefJp\u002Br9tiJbvCqtVW72N/h5dXsVDpu6eIySXQAUi4VIJEp3d/dJTdPuL2WdnZ09QghhGEaJujD0RerLLCy3hmGIc\u002BfOiWAw2MKSsVdCSvn3qVOn2kt9pJQIIVYV2pUE0DTtH2B\u002BtdIDwn\u002B7nChdLXVvTAAAAABJRU5ErkJggg==",
-              "WhenOpened": "2025-11-12T13:11:31.748Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-12T13:11:31.748Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ApiService.cs",
-              "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Services\\ApiService.cs",
-              "RelativeDocumentMoniker": "Services\\ApiService.cs",
-              "ToolTip": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Services\\ApiService.cs",
-              "RelativeToolTip": "Services\\ApiService.cs",
-              "ViewState": "AgIAAGcAAAAAAAAAAAAkwIEAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-10T11:01:54.984Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 9,
               "Title": "HomePage.xaml",
               "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\HomePage.xaml",
               "RelativeDocumentMoniker": "HomePage.xaml",
@@ -160,16 +219,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "HomePage.xaml.cs",
               "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\HomePage.xaml.cs",
               "RelativeDocumentMoniker": "HomePage.xaml.cs",
               "ToolTip": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\HomePage.xaml.cs",
               "RelativeToolTip": "HomePage.xaml.cs",
-              "ViewState": "AgIAAHYAAAAAAAAAAAAqwIkAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAIwIgAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-10T10:12:12.808Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AndroidManifest.xml",
+              "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Platforms\\Android\\AndroidManifest.xml",
+              "RelativeDocumentMoniker": "Platforms\\Android\\AndroidManifest.xml",
+              "ToolTip": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Platforms\\Android\\AndroidManifest.xml",
+              "RelativeToolTip": "Platforms\\Android\\AndroidManifest.xml",
+              "ViewState": "AgIAAAgAAAAAAAAAAABBwBgAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2025-11-10T10:07:53.762Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-13T08:47:56.878Z"
             },
             {
               "$type": "Document",
@@ -179,14 +263,14 @@
               "RelativeDocumentMoniker": "Services\\LocationService.cs",
               "ToolTip": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Services\\LocationService.cs",
               "RelativeToolTip": "Services\\LocationService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwA4AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwCoAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-10T10:22:12.905Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "LocationForegroundService.cs",
               "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Platforms\\Android\\LocationForegroundService.cs",
               "RelativeDocumentMoniker": "Platforms\\Android\\LocationForegroundService.cs",
@@ -198,7 +282,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "MainActivity.cs",
               "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Platforms\\Android\\MainActivity.cs",
               "RelativeDocumentMoniker": "Platforms\\Android\\MainActivity.cs",
@@ -210,19 +294,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "AndroidManifest.xml",
-              "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Platforms\\Android\\AndroidManifest.xml",
-              "RelativeDocumentMoniker": "Platforms\\Android\\AndroidManifest.xml",
-              "ToolTip": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\Platforms\\Android\\AndroidManifest.xml",
-              "RelativeToolTip": "Platforms\\Android\\AndroidManifest.xml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
-              "WhenOpened": "2025-11-10T10:07:53.762Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "App.xaml.cs",
               "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\App.xaml.cs",
               "RelativeDocumentMoniker": "App.xaml.cs",
@@ -234,7 +306,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "GeoTrackerApp3",
               "DocumentMoniker": "C:\\Users\\vissi\\projects\\GeoTrackerApp3\\GeoTrackerApp3.csproj",
               "RelativeDocumentMoniker": "GeoTrackerApp3.csproj",
@@ -247,7 +319,7 @@
           ]
         },
         {
-          "DockedWidth": 1498,
+          "DockedWidth": 888,
           "SelectedChildIndex": -1,
           "Children": [
             {

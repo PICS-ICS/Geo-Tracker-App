@@ -16,9 +16,11 @@ androidx.fragment.app.FragmentContainerView;C:\Users\vissi\projects\GeoTrackerAp
 attr;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\158\jl\res\values\attr.xml
 background;obj\Debug\net9.0-android\resizetizer\r\mipmap-anydpi-v26\appicon.xml
 background;obj\Debug\net9.0-android\resizetizer\r\mipmap-anydpi-v26\appicon_round.xml
+base-config;obj\Debug\net9.0-android\res\xml\network_security_config.xml
 bitmap;obj\Debug\net9.0-android\resizetizer\sp\drawable\maui_splash_image.xml
 bitmap;obj\Debug\net9.0-android\resizetizer\sp\drawable-v31\maui_splash_image.xml
 cache-path;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\159\jl\res\xml\microsoft_maui_essentials_fileprovider_file_paths.xml
+certificates;obj\Debug\net9.0-android\res\xml\network_security_config.xml
 color;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\158\jl\res\values\colors.xml
 color;obj\Debug\net9.0-android\res\values\colors.xml
 color;obj\Debug\net9.0-android\resizetizer\sp\values\maui_colors.xml
@@ -26,6 +28,8 @@ com.google.android.material.appbar.AppBarLayout;C:\Users\vissi\projects\GeoTrack
 com.google.android.material.appbar.AppBarLayout;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\156\jl\res\layout\shellcontent.xml
 com.google.android.material.appbar.AppBarLayout;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\158\jl\res\layout\navigationlayout.xml
 declare-styleable;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\158\jl\res\values\attr.xml
+domain;obj\Debug\net9.0-android\res\xml\network_security_config.xml
+domain-config;obj\Debug\net9.0-android\res\xml\network_security_config.xml
 external-cache-path;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\159\jl\res\xml\microsoft_maui_essentials_fileprovider_file_paths.xml
 external-path;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\159\jl\res\xml\microsoft_maui_essentials_fileprovider_file_paths.xml
 foreground;obj\Debug\net9.0-android\resizetizer\r\mipmap-anydpi-v26\appicon.xml
@@ -44,6 +48,7 @@ layer-list;obj\Debug\net9.0-android\resizetizer\sp\drawable-v31\maui_splash_imag
 microsoft.maui.controls.platform.compatibility.ShellFlyoutLayout;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\156\jl\res\layout\flyoutcontent.xml
 monochrome;obj\Debug\net9.0-android\resizetizer\r\mipmap-anydpi-v26\appicon.xml
 monochrome;obj\Debug\net9.0-android\resizetizer\r\mipmap-anydpi-v26\appicon_round.xml
+network-security-config;obj\Debug\net9.0-android\res\xml\network_security_config.xml
 paths;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\159\jl\res\xml\microsoft_maui_essentials_fileprovider_file_paths.xml
 resources;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\156\jl\res\values\strings.xml
 resources;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\157\jl\res\values\values.xml
@@ -78,3 +83,4 @@ translate;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\158
 translate;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\158\jl\res\anim\nav_default_pop_exit_anim.xml
 translate;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\158\jl\res\anim\nav_modal_default_enter_anim.xml
 translate;C:\Users\vissi\projects\GeoTrackerApp3\obj\Debug\net9.0-android\lp\158\jl\res\anim\nav_modal_default_exit_anim.xml
+trust-anchors;obj\Debug\net9.0-android\res\xml\network_security_config.xml

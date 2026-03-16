@@ -4,8 +4,8 @@ namespace GeoTrackerApp3.Models
 {
     public class LoginRequest
     {
-        public string UsernameOrEmail { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
+        public string password { get; set; } = string.Empty;
     }
 
     public class RegisterRequest
@@ -22,12 +22,12 @@ namespace GeoTrackerApp3.Models
     {
         public int memberID { get; set; }
         public int companyID { get; set; }
-        public double latitude { get; set; }
-        public double longitude { get; set; }
+        public double lat { get; set; }
+        public double lon { get; set; }
         public DateTime pingTime { get; set; }
         public string ipAddress { get; set; } = string.Empty;
         public string deviceOS { get; set; } = string.Empty;
-        public string deviceType { get; set; } = string.Empty;
+        public string deviceModel { get; set; } = string.Empty;
     }
 
 

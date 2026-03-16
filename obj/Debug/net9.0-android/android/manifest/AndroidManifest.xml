@@ -16,7 +16,7 @@
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
   <permission android:name="com.companyname.geotrackerapp3.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" android:protectionLevel="signature" />
   <uses-permission android:name="com.companyname.geotrackerapp3.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-  <application android:name="crc64eaf91aac5f560f2d.MainApplication" android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:debuggable="true" android:extractNativeLibs="true" android:icon="@mipmap/appicon" android:label="GeoTrackerApp3" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true" android:usesCleartextTraffic="true">
+  <application android:name="crc64eaf91aac5f560f2d.MainApplication" android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:debuggable="true" android:extractNativeLibs="true" android:icon="@mipmap/appicon" android:label="GeoTrackerApp3" android:networkSecurityConfig="@xml/network_security_config" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true" android:usesCleartextTraffic="true">
     <service android:name="com.companyname.geotrackerapp3.Platforms.Android.LocationForegroundService" android:enabled="true" android:exported="false" android:foregroundServiceType="location" />
     <activity android:name="crc64eaf91aac5f560f2d.MainActivity" android:configChanges="density|orientation|smallestScreenSize|screenLayout|screenSize|uiMode" android:exported="true" android:launchMode="singleTop" android:theme="@style/Maui.SplashTheme">
       <intent-filter>
