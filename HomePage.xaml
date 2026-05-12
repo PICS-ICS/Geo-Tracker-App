@@ -17,7 +17,8 @@
                   CornerRadius="8"
                   Padding="6"
                   HorizontalOptions="Center"
-                  Opacity="0">
+                  Opacity="0"
+                  HasShadow="False">
                 <Label Text="Actively Sharing location..."
                     TextColor="White"
                     FontSize="14"

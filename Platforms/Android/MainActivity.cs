@@ -1,7 +1,11 @@
-﻿using Android.App;
+﻿using Android;
+using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Android.Webkit;
+using AndroidX.Core.App;
+using AndroidX.Core.Content;
 using GeoTrackerApp3.Platforms.Android;
 
 namespace GeoTrackerApp3;
@@ -10,6 +14,7 @@ namespace GeoTrackerApp3;
     Theme = "@style/Maui.SplashTheme",
     MainLauncher = true,
     LaunchMode = LaunchMode.SingleTop,
+    HardwareAccelerated = true, // Enable hardware acceleration
     ConfigurationChanges = ConfigChanges.ScreenSize
         | ConfigChanges.Orientation
         | ConfigChanges.UiMode
@@ -22,15 +27,88 @@ public class MainActivity : MauiAppCompatActivity
     {
         base.OnCreate(savedInstanceState);
 
-        // ✅ Only start the service once when the app launches (not on rotation/config change)
-        if (savedInstanceState == null)
-        {
-            var intent = new Intent(this, typeof(LocationForegroundService));
+        // Performance optimization for low-end devices
+        OptimizeForPerformance();
 
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
-                StartForegroundService(intent);
-            else
-                StartService(intent);
+        // Request camera permission
+        RequestCameraPermission();
+
+        // Configure WebView for camera access with optimizations
+        Microsoft.Maui.Handlers.WebViewHandler.Mapper.AppendToMapping("CameraWebView", (handler, view) =>
+        {
+            if (handler.PlatformView is Android.Webkit.WebView webView)
+            {
+                webView.Settings.JavaScriptEnabled = true;
+                webView.Settings.DomStorageEnabled = true;
+                webView.Settings.MediaPlaybackRequiresUserGesture = false;
+                
+                // Performance optimizations
+                webView.Settings.CacheMode = CacheModes.CacheElseNetwork; // Enable caching
+                webView.Settings.SetRenderPriority(WebSettings.RenderPriority.High);
+                webView.Settings.DatabaseEnabled = false; // Disable if not needed
+                webView.Settings.SetGeolocationEnabled(false); // Disable if not needed
+                
+                webView.SetWebChromeClient(new CameraWebChromeClient(this));
+            }
+        });
+
+        // Location service is started from LoginPage.OnAppearing after permission is granted
+    }
+
+    private void OptimizeForPerformance()
+    {
+        // Enable sustained performance mode on Android N+ for consistent performance
+        if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
+        {
+            try
+            {
+                Window?.SetSustainedPerformanceMode(true);
+            }
+            catch { /* Not all devices support this */ }
+        }
+
+        // Optimize for low RAM devices
+        if (Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat)
+        {
+            var activityManager = (ActivityManager)GetSystemService(ActivityService);
+            if (activityManager?.IsLowRamDevice ?? false)
+            {
+                // Additional optimizations for low-end devices
+                System.Diagnostics.Debug.WriteLine("Low RAM device detected - applying optimizations");
+            }
+        }
+    }
+
+    private void RequestCameraPermission()
+    {
+        if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.Camera) != Permission.Granted)
+        {
+            ActivityCompat.RequestPermissions(this, new[] { Manifest.Permission.Camera }, 100);
         }
     }
 }
+
+// WebChromeClient to grant camera permission
+public class CameraWebChromeClient : WebChromeClient
+{
+    private readonly Activity _activity;
+
+    public CameraWebChromeClient(Activity activity)
+    {
+        _activity = activity;
+    }
+
+    public override void OnPermissionRequest(PermissionRequest request)
+    {
+        // Auto-grant camera permission
+        if (ContextCompat.CheckSelfPermission(_activity, Manifest.Permission.Camera) == Permission.Granted)
+        {
+            request.Grant(request.GetResources());
+        }
+        else
+        {
+            request.Deny();
+        }
+    }
+}
+

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 using GeoTrackerApp3.Models;
 
@@ -8,51 +9,58 @@ namespace GeoTrackerApp3.Services
 {
     public static class ApiService
     {
-        // Replace with your real API base address
-        // Use 10.0.2.2 for Android Emulator to access host machine's localhost
-        // Use actual IP for physical devices on same network
-#if ANDROID
-        private static readonly string BaseUrl = "https://picsapiqa.ics.co.za";
-#else
-        private static readonly string BaseUrl = "https://picsapiqa.ics.co.za";
-#endif
+        private static readonly string BaseUrl = "https://picsapiconfig.ics.co.za";
+        
+        // Lazy initialization - only create HttpClient when needed
+        private static readonly Lazy<HttpClient> _lazyHttpClient = new Lazy<HttpClient>(CreateHttpClient);
+        private static HttpClient HttpClient => _lazyHttpClient.Value;
 
-        private static readonly HttpClient _httpClient;
+        // Cache IP address to avoid repeated network calls
+        private static string _cachedIpAddress;
+        private static DateTime _ipCacheTime = DateTime.MinValue;
+        private static readonly TimeSpan IP_CACHE_DURATION = TimeSpan.FromMinutes(5);
 
-        static ApiService()
+        private static HttpClient CreateHttpClient()
         {
 #if DEBUG && ANDROID
-            // ONLY FOR DEVELOPMENT - bypasses SSL validation for self-signed certificates
             var handler = new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
             };
-            _httpClient = new HttpClient(handler)
+            return new HttpClient(handler)
             {
                 BaseAddress = new Uri(BaseUrl),
-                Timeout = TimeSpan.FromSeconds(30)
+                Timeout = TimeSpan.FromSeconds(15) // Reduced from 30 for faster failures
             };
 #else
-            _httpClient = new HttpClient
+            return new HttpClient
             {
                 BaseAddress = new Uri(BaseUrl),
-                Timeout = TimeSpan.FromSeconds(30)
+                Timeout = TimeSpan.FromSeconds(15)
             };
 #endif
-
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
         }
 
         public static async Task<string> GetPublicIpAddressAsync()
         {
             try
             {
-                using var client = new HttpClient();
-                return await client.GetStringAsync("https://api.ipify.org");
+                // Return cached IP if still valid
+                if (!string.IsNullOrEmpty(_cachedIpAddress) && 
+                    DateTime.UtcNow - _ipCacheTime < IP_CACHE_DURATION)
+                {
+                    return _cachedIpAddress;
+                }
+
+                using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
+                _cachedIpAddress = await client.GetStringAsync("https://api.ipify.org");
+                _ipCacheTime = DateTime.UtcNow;
+                return _cachedIpAddress;
             }
             catch
             {
-                return "Unknown";
+                // Return cached value or Unknown
+                return _cachedIpAddress ?? "Unknown";
             }
         }
 
@@ -62,10 +70,11 @@ namespace GeoTrackerApp3.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("/api/Auth/register", request);
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+                var response = await HttpClient.PostAsJsonAsync("/api/Auth/register", request, AppJsonContext.Default.RegisterRequest, cts.Token);
                 if (response.IsSuccessStatusCode)
                 {
-                    var body = await response.Content.ReadFromJsonAsync<AuthResponse>();
+                    var body = await response.Content.ReadFromJsonAsync(AppJsonContext.Default.AuthResponse, cancellationToken: cts.Token);
                     if (body != null && !string.IsNullOrEmpty(body.Token))
                     {
                         return ApiResult.Success(body.Token);
@@ -79,6 +88,10 @@ namespace GeoTrackerApp3.Services
                     return ApiResult.Failure(msg ?? $"Server returned {(int)response.StatusCode}");
                 }
             }
+            catch (TaskCanceledException)
+            {
+                return ApiResult.Failure("Request timed out");
+            }
             catch (Exception ex)
             {
                 return ApiResult.Failure(ex.Message);
@@ -89,10 +102,11 @@ namespace GeoTrackerApp3.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("/api/Authentication/login", request);
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+                var response = await HttpClient.PostAsJsonAsync("/api/Authentication/login", request, AppJsonContext.Default.LoginRequest, cts.Token);
                 if (response.IsSuccessStatusCode)
                 {
-                    var body = await response.Content.ReadFromJsonAsync<AuthResponse>();
+                    var body = await response.Content.ReadFromJsonAsync(AppJsonContext.Default.AuthResponse, cancellationToken: cts.Token);
                     if (body != null && !string.IsNullOrEmpty(body.Token))
                     {
                         try
@@ -103,7 +117,6 @@ namespace GeoTrackerApp3.Services
                         }
                         catch (Exception ex)
                         {
-                            // SecureStorage can throw if device doesn't support it or permissions missing
                             System.Diagnostics.Debug.WriteLine($"SecureStorage error: {ex.Message}");
                         }
 
@@ -116,6 +129,10 @@ namespace GeoTrackerApp3.Services
                     var msg = await TryGetErrorMessage(response);
                     return ApiResult.Failure(msg ?? $"Server returned {(int)response.StatusCode}");
                 }
+            }
+            catch (TaskCanceledException)
+            {
+                return ApiResult.Failure("Request timed out");
             }
             catch (Exception ex)
             {
@@ -133,18 +150,13 @@ namespace GeoTrackerApp3.Services
 
                 request.ipAddress = await GetPublicIpAddressAsync();
 
-                // Create the request message explicitly
                 using var requestMessage = new HttpRequestMessage(HttpMethod.Post, "/api/LocationPings/Create");
-
-                // Set the authorization header on the request
                 requestMessage.Headers.Authorization =
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                requestMessage.Content = JsonContent.Create(request, AppJsonContext.Default.LocationData);
 
-                // Set the content
-                requestMessage.Content = JsonContent.Create(request);
-
-                // Send the request
-                var response = await _httpClient.SendAsync(requestMessage);
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                var response = await HttpClient.SendAsync(requestMessage, cts.Token);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -155,6 +167,10 @@ namespace GeoTrackerApp3.Services
                     var msg = await TryGetErrorMessage(response);
                     return ApiResult.Failure(msg ?? $"Server returned {(int)response.StatusCode}");
                 }
+            }
+            catch (TaskCanceledException)
+            {
+                return ApiResult.Failure("Request timed out");
             }
             catch (Exception ex)
             {
@@ -167,7 +183,7 @@ namespace GeoTrackerApp3.Services
             try
             {
                 // try read a JSON error message
-                var err = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+                var err = await response.Content.ReadFromJsonAsync(AppJsonContext.Default.ErrorResponse);
                 if (err != null && !string.IsNullOrEmpty(err.Message))
                     return err.Message;
             }
@@ -182,16 +198,6 @@ namespace GeoTrackerApp3.Services
             catch { }
 
             return null;
-        }
-
-        // Example helper to add token to a request:
-        public static void AddAuthorizationHeader(string token)
-        {
-            if (!string.IsNullOrEmpty(token))
-            {
-                _httpClient.DefaultRequestHeaders.Authorization =
-                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            }
         }
     }
 }

@@ -20,14 +20,14 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>GeoTrackerApp3</ApplicationTitle>
+		<ApplicationTitle>ICS Flow</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.geotrackerapp3</ApplicationId>
+		<ApplicationId>com.pics.GeoApp</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>1</ApplicationVersion>
+		<ApplicationVersion>2</ApplicationVersion>
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
 		<WindowsPackageType>None</WindowsPackageType>
@@ -45,12 +45,45 @@
 	  <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
 	</PropertyGroup>
 
+	<!-- Performance optimizations for Android Release builds -->
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net9.0-android'">
+		<!-- Enable AOT compilation for faster startup -->
+		<RunAOTCompilation>true</RunAOTCompilation>
+		<AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
+		
+		<!-- Optimize garbage collection -->
+		<AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+		
+		<!-- Reduce APK size and improve performance -->
+		<AndroidLinkMode>Full</AndroidLinkMode>
+		<AndroidUseAssemblyStore>true</AndroidUseAssemblyStore>
+		
+		<!-- Enable dex optimization -->
+		<AndroidDexTool>d8</AndroidDexTool>
+		<AndroidEnableMultiDex>false</AndroidEnableMultiDex>
+		
+		<!-- R8 code shrinker -->
+		<AndroidLinkTool>r8</AndroidLinkTool>
+
+		<!-- Signing -->
+		<AndroidKeyStore>true</AndroidKeyStore>
+		<AndroidSigningKeyStore>geo-tracker.keystore</AndroidSigningKeyStore>
+		<AndroidSigningKeyAlias>geo-tracker</AndroidSigningKeyAlias>
+	</PropertyGroup>
+	
+	<!-- Additional Android optimizations -->
+	<PropertyGroup Condition="$(TargetFramework.Contains('android'))">
+	<!-- AAB required for Google Play Store -->
+	<AndroidPackageFormat>aab</AndroidPackageFormat>
+	<EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#273575" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#FFFFFF"/>
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#FFFFFF" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -77,6 +110,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="RegisterPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\WebViewTestPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

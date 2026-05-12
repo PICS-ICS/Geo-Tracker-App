@@ -1,3 +1,19 @@
 ﻿.vs/GeoTrackerApp3/CopilotIndices
 .vs/GeoTrackerApp3/FileContentIndex
 obj/Debug
+.vs/GeoTrackerApp3/copilot-chat
+.vs/CopilotSnapshots
+
+
+# .NET
+bin/
+obj/
+.vs/
+
+# Android packages
+*.apk
+*.aab
+
+# Rider/VS Code optional
+.idea/
+.vscode/

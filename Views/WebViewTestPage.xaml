@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GeoTrackerApp3.Views.WebViewTestPage"
+             Title="Face Verification"
+             BackgroundColor="Black"
+             NavigationPage.HasNavigationBar="False">
+    
+    <!-- Use AbsoluteLayout instead of nested Grids for better performance -->
+    <AbsoluteLayout>
+        
+        <!-- WebView - Full Screen -->
+        <WebView x:Name="TestWebView"
+                 AbsoluteLayout.LayoutBounds="0,0,1,1"
+                 AbsoluteLayout.LayoutFlags="All"
+                 BackgroundColor="White" />
+        
+        <!-- Loading Overlay (only shows while loading) -->
+        <Grid x:Name="LoadingOverlay"
+              AbsoluteLayout.LayoutBounds="0,0,1,1"
+              AbsoluteLayout.LayoutFlags="All"
+              BackgroundColor="#E6000000"
+              IsVisible="True">
+            <VerticalStackLayout VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                Spacing="15">
+                <ActivityIndicator x:Name="LoadingIndicator"
+                                  IsRunning="True"
+                                  Color="White"
+                                  WidthRequest="50"
+                                  HeightRequest="50" />
+                <Label Text="Loading face verification..."
+                       TextColor="White"
+                       FontSize="16" />
+            </VerticalStackLayout>
+        </Grid>
+        
+    </AbsoluteLayout>
+    
+</ContentPage>

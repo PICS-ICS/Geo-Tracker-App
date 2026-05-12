@@ -33,9 +33,26 @@ namespace GeoTrackerApp3.Models
 
     public class AuthResponse
     {
+        [JsonPropertyName("token")]
         public string Token { get; set; } = string.Empty;
+
+        [JsonPropertyName("memberId")]
         public int MemberID { get; set; }
+
+        [JsonPropertyName("companyID")]
         public int CompanyID { get; set; }
+
+        [JsonPropertyName("memberGuid")]
+        public string MemberGUID { get; set; } = string.Empty;
+
+        [JsonPropertyName("message")]
+        public string Message { get; set; } = string.Empty;
+
+        [JsonPropertyName("fullName")]
+        public string FullName { get; set; } = string.Empty;
+
+        [JsonPropertyName("success")]
+        public bool Success { get; set; }
     }
 
     public class UserDto
