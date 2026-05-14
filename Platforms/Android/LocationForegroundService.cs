@@ -1,10 +1,11 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Content.PM; // ✅ Needed for ForegroundServiceType
+using Android.Content.PM;
 using AndroidX.Core.App;
 using Microsoft.Maui.Devices.Sensors;
-using System.Net.Http.Json;
+using GeoTrackerApp3.Models;
+using GeoTrackerApp3.Services;
 
 namespace GeoTrackerApp3.Platforms.Android
 {
@@ -12,28 +13,37 @@ namespace GeoTrackerApp3.Platforms.Android
     public class LocationForegroundService : Service
     {
         private Timer _timer;
-        private readonly HttpClient _httpClient = new();
+        private string _token;
+        private int _memberId;
+        private int _companyId;
+
+        private const int INTERVAL_MS = 10_000;
 
         public override IBinder OnBind(Intent intent) => null;
 
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
+            _token = intent?.GetStringExtra("token") ?? string.Empty;
+            _memberId = intent?.GetIntExtra("memberId", 0) ?? 0;
+            _companyId = intent?.GetIntExtra("companyId", 0) ?? 0;
+
             CreateNotification();
-            _timer = new Timer(async _ => await SendLocationAsync(), null, 0, 5 * 60 * 1000);
+            _timer = new Timer(async _ => await SendLocationAsync(), null, 0, INTERVAL_MS);
             return StartCommandResult.Sticky;
         }
 
         private void CreateNotification()
         {
             var channelId = "location_channel";
-            var channel = new NotificationChannel(channelId, "Location Tracking", NotificationImportance.Default);
+            var channel = new NotificationChannel(channelId, "Location Tracking", NotificationImportance.Low);
             var manager = (NotificationManager)GetSystemService(NotificationService);
             manager.CreateNotificationChannel(channel);
 
             var notification = new NotificationCompat.Builder(this, channelId)
-                .SetContentTitle("GeoTracker Active")
+                .SetContentTitle("ICS Flow Active")
                 .SetContentText("Tracking location in background")
                 .SetSmallIcon(Resource.Mipmap.appicon)
+                .SetOngoing(true)
                 .Build();
 
             StartForeground(1, notification);
@@ -43,31 +53,37 @@ namespace GeoTrackerApp3.Platforms.Android
         {
             try
             {
-                var status = await Permissions.CheckStatusAsync<Permissions.LocationAlways>();
-                if (status != PermissionStatus.Granted)
-                    status = await Permissions.RequestAsync<Permissions.LocationAlways>();
-
-                if (status != PermissionStatus.Granted)
+                if (string.IsNullOrEmpty(_token))
                     return;
 
                 var location = await Geolocation.GetLocationAsync(
-                    new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(10)));
+                    new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(5)));
 
-                if (location != null)
+                if (location == null)
+                    return;
+
+                var data = new LocationData
                 {
-                    var data = new
-                    {
-                        Latitude = location.Latitude,
-                        Longitude = location.Longitude,
-                        Timestamp = DateTime.UtcNow
-                    };
+                    memberID = _memberId,
+                    companyID = _companyId,
+                    lat = location.Latitude,
+                    lon = location.Longitude,
+                    pingTime = DateTime.UtcNow,
+                    ipAddress = "Unknown",
+                    deviceOS = DeviceInfo.Platform.ToString(),
+                    deviceModel = DeviceInfo.Model
+                };
 
-                    await _httpClient.PostAsJsonAsync("https://your-api-endpoint.com/location", data);
-                }
+                var result = await ApiService.SendLocationAsync(data, _token);
+
+                if (!result.IsSuccess)
+                    System.Diagnostics.Debug.WriteLine($"[BG Location] API error: {result.ErrorMessage}");
+                else
+                    System.Diagnostics.Debug.WriteLine($"[BG Location] Sent: {location.Latitude},{location.Longitude}");
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[Background Location Error] {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[BG Location] Error: {ex.Message}");
             }
         }
 

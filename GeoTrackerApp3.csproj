@@ -123,6 +123,7 @@
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
 		<AndroidResource Include="Platforms\Android\Resources\xml\network_security_config.xml" />
+		<TrimmerRootDescriptor Include="Platforms\Android\Linker.xml" />
 	</ItemGroup>
 
 </Project>

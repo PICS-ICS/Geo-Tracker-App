@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<linker>
+  <assembly fullname="System.Net.Http" />
+  <assembly fullname="System.Text.Json" />
+  <assembly fullname="System.Security.Cryptography" />
+  <assembly fullname="GeoTrackerApp3" />
+</linker>

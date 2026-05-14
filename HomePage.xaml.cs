@@ -79,6 +79,10 @@ namespace GeoTrackerApp3.Views
 
                 await TrackingStatusFrame.FadeTo(1, 300, Easing.Linear);
 
+                // Start foreground service for background tracking
+                StartLocationService();
+
+                // Also track in-app for UI updates
                 _ = StartTrackingAsync(_cts.Token);
             }
             else
@@ -88,6 +92,9 @@ namespace GeoTrackerApp3.Views
                 _cts?.Cancel();
                 _cts?.Dispose();
                 _cts = null;
+
+                // Stop the foreground service
+                StopLocationService();
 
                 ToggleTrackingButton.Text = "Start Tracking";
                 ToggleTrackingButton.BackgroundColor = Color.FromArgb("#4CAF50");
@@ -99,9 +106,10 @@ namespace GeoTrackerApp3.Views
 
         private async Task StartTrackingAsync(CancellationToken token)
         {
+            // UI-only loop — the foreground service handles API calls
             while (!token.IsCancellationRequested)
             {
-                await GetAndSendLocationAsync();
+                await UpdateLocationUIAsync();
 
                 try
                 {
@@ -114,74 +122,47 @@ namespace GeoTrackerApp3.Views
             }
         }
 
-       // private async void OnRefreshClicked(object sender, EventArgs e)
-       // {
-       //     await GetAndSendLocationAsync();
-       // }
-
-        private async Task GetAndSendLocationAsync()
+        private async Task UpdateLocationUIAsync()
         {
             try
             {
-                var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-                if (status != PermissionStatus.Granted)
-                    status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-
-                if (status != PermissionStatus.Granted)
-                    return;
-
-                // Use Medium accuracy for better performance on low-end devices
                 var location = await Geolocation.GetLocationAsync(
                     new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(5)));
 
                 if (location != null)
                 {
-                    // Non-blocking UI update
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
                         LatitudeLabel.Text = $"Latitude: {location.Latitude}";
                         LongitudeLabel.Text = $"Longitude: {location.Longitude}";
                     });
-
-                    // Use cached values instead of repeated SecureStorage calls
-                    string token = _token;
-                    if (string.IsNullOrEmpty(token))
-                    {
-                        token = await SecureStorage.GetAsync("api_token") ?? string.Empty;
-                        _token = token;
-                    }
-
-                    if (string.IsNullOrEmpty(token))
-                    {
-                        await DisplayAlert("Error", "Token not found. Please log in again.", "OK");
-                        return;
-                    }
-
-                    var data = new Models.LocationData
-                    {
-                        memberID = Convert.ToInt32(_cachedMemberId),
-                        companyID = Convert.ToInt32(_cachedCompanyId),
-                        lat = location.Latitude,
-                        lon = location.Longitude,
-                        pingTime = DateTime.UtcNow,
-                        ipAddress = "Unknown", 
-                        deviceOS = DeviceInfo.Platform.ToString(), 
-                        deviceModel = DeviceInfo.Model
-                    };
-
-                    var result = await ApiService.SendLocationAsync(data, token);
-
-                    if (!result.IsSuccess)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"Location API error: {result.ErrorMessage}");
-                    }
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Location error: {ex.Message}");
-                // Don't show alert for every error to avoid interrupting user
+                System.Diagnostics.Debug.WriteLine($"UI location error: {ex.Message}");
             }
+        }
+
+        private void StartLocationService()
+        {
+#if ANDROID
+            var context = Android.App.Application.Context;
+            var intent = new Android.Content.Intent(context, typeof(Platforms.Android.LocationForegroundService));
+            intent.PutExtra("token", _token);
+            intent.PutExtra("memberId", Convert.ToInt32(_cachedMemberId));
+            intent.PutExtra("companyId", Convert.ToInt32(_cachedCompanyId));
+            context.StartForegroundService(intent);
+#endif
+        }
+
+        private void StopLocationService()
+        {
+#if ANDROID
+            var context = Android.App.Application.Context;
+            var intent = new Android.Content.Intent(context, typeof(Platforms.Android.LocationForegroundService));
+            context.StopService(intent);
+#endif
         }
 
         private void OnLogoutClicked(object sender, EventArgs e)
@@ -195,6 +176,7 @@ namespace GeoTrackerApp3.Views
                     _cts?.Cancel();
                     _cts?.Dispose();
                     _cts = null;
+                    StopLocationService();
                 }
 
                 SecureStorage.Remove("api_token");
@@ -210,7 +192,7 @@ namespace GeoTrackerApp3.Views
         {
             base.OnDisappearing();
             
-            // Clean up tracking when page disappears
+            // Only cancel in-app tracking loop — foreground service keeps running
             if (_isTracking)
             {
                 _cts?.Cancel();
