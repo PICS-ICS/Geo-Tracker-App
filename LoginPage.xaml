@@ -2,39 +2,112 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GeoTrackerApp3.Views.LoginPage"
-             Title="Login">
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource PageBackground}">
+
     <ScrollView>
-        <VerticalStackLayout Padding="30" Spacing="18" VerticalOptions="Center">
+        <Grid RowDefinitions="*,Auto,*" Padding="24" MinimumHeightRequest="700">
 
-            <Image
-                Source="icsflow_logo.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+            <!-- Top spacer with subtle branding -->
+            <VerticalStackLayout Grid.Row="0" VerticalOptions="End" Spacing="4" Padding="0,0,0,24">
+                <Image Source="icsflow_logo.png"
+                       HeightRequest="72"
+                       Aspect="AspectFit"
+                       HorizontalOptions="Center"
+                       Opacity="0.95" />
+            </VerticalStackLayout>
 
-            <Label Text="Welcome back" FontSize="28" HorizontalOptions="Center" />
+            <!-- Login Card -->
+            <Border Grid.Row="1"
+                    BackgroundColor="{StaticResource CardBackground}"
+                    StrokeShape="RoundRectangle 16"
+                    Stroke="{StaticResource Border}"
+                    StrokeThickness="1"
+                    Padding="28,32"
+                    Shadow="{OnPlatform Default={Shadow Brush=#10000000, Offset='0,4', Radius=16}}">
 
-            <Entry x:Name="EmailEntry"
-                   Placeholder="Email"
-                   Keyboard="Email"
-                   FontSize="16"
-                   Text="{Binding Email}" />
+                <VerticalStackLayout Spacing="20">
 
-            <Entry x:Name="PasswordEntry"
-                   IsPassword="True"
-                   Placeholder="Password"
-                   FontSize="16" />
+                    <!-- Heading -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Welcome Back"
+                               FontSize="26"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource TextPrimary}"
+                               HorizontalOptions="Start" />
+                        <Label Text="Sign in to continue to ICS Flow"
+                               FontSize="14"
+                               TextColor="{StaticResource TextSecondary}"
+                               HorizontalOptions="Start" />
+                    </VerticalStackLayout>
 
-            <Button Text="Login"
-                    x:Name="LoginButton"
-                    Clicked="OnLoginClicked"
-                    FontSize="16" />
+                    <!-- Email Input -->
+                    <Border BackgroundColor="{StaticResource InputBackground}"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="{StaticResource Border}"
+                            StrokeThickness="1"
+                            Padding="16,4"
+                            HeightRequest="54">
+                        <Entry x:Name="EmailEntry"
+                               Placeholder="Email address"
+                               Keyboard="Email"
+                               FontSize="15"
+                               TextColor="{StaticResource TextPrimary}"
+                               PlaceholderColor="{StaticResource TextMuted}"
+                               BackgroundColor="Transparent"
+                               VerticalOptions="Center" />
+                    </Border>
 
-            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
-            </HorizontalStackLayout>
+                    <!-- Password Input -->
+                    <Border BackgroundColor="{StaticResource InputBackground}"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="{StaticResource Border}"
+                            StrokeThickness="1"
+                            Padding="16,4"
+                            HeightRequest="54">
+                        <Entry x:Name="PasswordEntry"
+                               IsPassword="True"
+                               Placeholder="Password"
+                               FontSize="15"
+                               TextColor="{StaticResource TextPrimary}"
+                               PlaceholderColor="{StaticResource TextMuted}"
+                               BackgroundColor="Transparent"
+                               VerticalOptions="Center" />
+                    </Border>
 
-            <ActivityIndicator x:Name="BusyIndicator" IsVisible="False" IsRunning="False" />
+                    <!-- Login Button -->
+                    <Button x:Name="LoginButton"
+                            Text="Sign In"
+                            Clicked="OnLoginClicked"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            TextColor="White"
+                            BackgroundColor="{StaticResource Primary}"
+                            CornerRadius="12"
+                            HeightRequest="52"
+                            Margin="0,8,0,0"
+                            Shadow="{OnPlatform Default={Shadow Brush=#30243B8F, Offset='0,4', Radius=12}}" />
 
-        </VerticalStackLayout>
+                    <!-- Activity Indicator -->
+                    <ActivityIndicator x:Name="BusyIndicator"
+                                       IsVisible="False"
+                                       IsRunning="False"
+                                       Color="{StaticResource Primary}"
+                                       HeightRequest="28"
+                                       HorizontalOptions="Center" />
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Bottom section -->
+            <VerticalStackLayout Grid.Row="2" VerticalOptions="Start" Padding="0,24,0,0">
+                <Label Text="Secure enterprise mobility by ICS"
+                       FontSize="12"
+                       TextColor="{StaticResource TextMuted}"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+        </Grid>
     </ScrollView>
 </ContentPage>

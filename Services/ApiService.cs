@@ -20,25 +20,34 @@ namespace GeoTrackerApp3.Services
         private static DateTime _ipCacheTime = DateTime.MinValue;
         private static readonly TimeSpan IP_CACHE_DURATION = TimeSpan.FromMinutes(5);
 
+        private const int MAX_RETRIES = 3;
+
         private static HttpClient CreateHttpClient()
         {
-#if DEBUG && ANDROID
-            var handler = new HttpClientHandler
+#if ANDROID
+            var handler = new Xamarin.Android.Net.AndroidMessageHandler
             {
-                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-            };
-            return new HttpClient(handler)
-            {
-                BaseAddress = new Uri(BaseUrl),
-                Timeout = TimeSpan.FromSeconds(15) // Reduced from 30 for faster failures
+                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
+                {
+                    // Only bypass validation for our API domain
+                    if (message.RequestUri?.Host == "picsapiconfig.ics.co.za")
+                        return true;
+
+                    return errors == System.Net.Security.SslPolicyErrors.None;
+                }
             };
 #else
-            return new HttpClient
+            var handler = new HttpClientHandler
+            {
+                SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13,
+            };
+#endif
+
+            return new HttpClient(handler)
             {
                 BaseAddress = new Uri(BaseUrl),
                 Timeout = TimeSpan.FromSeconds(15)
             };
-#endif
         }
 
         public static async Task<string> GetPublicIpAddressAsync()
@@ -100,44 +109,102 @@ namespace GeoTrackerApp3.Services
 
         public static async Task<ApiResult> LoginAsync(LoginRequest request)
         {
-            try
-            {
-                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
-                var response = await HttpClient.PostAsJsonAsync("/api/Authentication/login", request, AppJsonContext.Default.LoginRequest, cts.Token);
-                if (response.IsSuccessStatusCode)
-                {
-                    var body = await response.Content.ReadFromJsonAsync(AppJsonContext.Default.AuthResponse, cancellationToken: cts.Token);
-                    if (body != null && !string.IsNullOrEmpty(body.Token))
-                    {
-                        try
-                        {
-                            await SecureStorage.SetAsync("api_token", body.Token);
-                            await SecureStorage.SetAsync("logged_in_memberID", body.MemberID.ToString());
-                            await SecureStorage.SetAsync("logged_in_companyID", body.CompanyID.ToString());
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"SecureStorage error: {ex.Message}");
-                        }
+            Exception lastException = null;
 
-                        return ApiResult.Success(body.Token);
-                    }
-                    return ApiResult.Failure("Invalid response from server.");
-                }
-                else
+            for (int attempt = 1; attempt <= MAX_RETRIES; attempt++)
+            {
+                try
                 {
-                    var msg = await TryGetErrorMessage(response);
-                    return ApiResult.Failure(msg ?? $"Server returned {(int)response.StatusCode}");
+                    System.Diagnostics.Debug.WriteLine($"LoginAsync: Attempt {attempt} of {MAX_RETRIES}");
+
+                    using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+                    var response = await HttpClient.PostAsJsonAsync("/api/Authentication/login", request, AppJsonContext.Default.LoginRequest, cts.Token);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var body = await response.Content.ReadFromJsonAsync(AppJsonContext.Default.AuthResponse, cancellationToken: cts.Token);
+                        if (body != null && !string.IsNullOrEmpty(body.Token))
+                        {
+                            try
+                            {
+                                await SecureStorage.SetAsync("api_token", body.Token);
+                                await SecureStorage.SetAsync("logged_in_memberID", body.MemberID.ToString());
+                                await SecureStorage.SetAsync("logged_in_companyID", body.CompanyID.ToString());
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Diagnostics.Debug.WriteLine($"SecureStorage error: {ex.Message}");
+                            }
+
+                            return ApiResult.Success(body.Token);
+                        }
+                        return ApiResult.Failure("Invalid response from server.");
+                    }
+                    else
+                    {
+                        // Don't retry HTTP-level errors (4xx/5xx) — those are real server responses
+                        var msg = await TryGetErrorMessage(response);
+                        return ApiResult.Failure(msg ?? $"Server returned {(int)response.StatusCode}");
+                    }
+                }
+                catch (TaskCanceledException)
+                {
+                    lastException = new TimeoutException($"Request timed out (attempt {attempt})");
+                }
+                catch (HttpRequestException httpEx)
+                {
+                    lastException = httpEx;
+                    System.Diagnostics.Debug.WriteLine($"LoginAsync: Attempt {attempt} failed - {httpEx.GetType().Name}: {httpEx.Message} | Inner: {httpEx.InnerException?.Message}");
+                }
+                catch (Exception ex)
+                {
+                    lastException = ex;
+                    System.Diagnostics.Debug.WriteLine($"LoginAsync: Attempt {attempt} failed - {ex.GetType().Name}: {ex.Message}");
+                }
+
+                // Wait before retrying (exponential backoff)
+                if (attempt < MAX_RETRIES)
+                {
+                    await Task.Delay(500 * attempt);
                 }
             }
-            catch (TaskCanceledException)
+
+            // Build a detailed error message for the user
+            var errorDetail = BuildDetailedError(lastException);
+            return ApiResult.Failure(errorDetail);
+        }
+
+        private static string BuildDetailedError(Exception ex)
+        {
+            if (ex == null)
+                return "Connection failed after multiple attempts.";
+
+            var inner = ex.InnerException;
+            var typeName = ex.GetType().Name;
+            var msg = ex.Message;
+
+            if (ex is TimeoutException)
+                return $"Could not reach the server after {MAX_RETRIES} attempts (timed out). Please check your internet connection.";
+
+            if (ex is HttpRequestException httpEx)
             {
-                return ApiResult.Failure("Request timed out");
+                var innerMsg = inner?.Message ?? "";
+                if (innerMsg.Contains("SSL", StringComparison.OrdinalIgnoreCase) ||
+                    innerMsg.Contains("TLS", StringComparison.OrdinalIgnoreCase) ||
+                    innerMsg.Contains("certificate", StringComparison.OrdinalIgnoreCase))
+                {
+                    return $"SSL/TLS error connecting to server. Your device may not trust the server certificate.\n\nDetails: {innerMsg}";
+                }
+
+                if (msg.Contains("No such host", StringComparison.OrdinalIgnoreCase) ||
+                    msg.Contains("Name resolution", StringComparison.OrdinalIgnoreCase))
+                {
+                    return "Cannot resolve server address. Please check your internet connection and try again.";
+                }
+
+                return $"Connection failed after {MAX_RETRIES} attempts.\n\nError: {msg}\n{(inner != null ? $"Detail: {inner.Message}" : "")}";
             }
-            catch (Exception ex)
-            {
-                return ApiResult.Failure(ex.Message);
-            }
+
+            return $"Unexpected error after {MAX_RETRIES} attempts.\n\nType: {typeName}\nError: {msg}";
         }
         public static async Task<ApiResult> SendLocationAsync(LocationData request, string token)
         {

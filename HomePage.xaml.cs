@@ -75,7 +75,7 @@ namespace GeoTrackerApp3.Views
                 _cts = new CancellationTokenSource();
 
                 ToggleTrackingButton.Text = "Stop Tracking";
-                ToggleTrackingButton.BackgroundColor = Colors.Red;
+                ToggleTrackingButton.BackgroundColor = Color.FromArgb("#EF4444");
 
                 await TrackingStatusFrame.FadeTo(1, 300, Easing.Linear);
 
@@ -97,7 +97,7 @@ namespace GeoTrackerApp3.Views
                 StopLocationService();
 
                 ToggleTrackingButton.Text = "Start Tracking";
-                ToggleTrackingButton.BackgroundColor = Color.FromArgb("#4CAF50");
+                ToggleTrackingButton.BackgroundColor = Color.FromArgb("#22C55E");
 
                 await TrackingStatusFrame.FadeTo(0, 300, Easing.Linear);
             }
@@ -133,8 +133,8 @@ namespace GeoTrackerApp3.Views
                 {
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
-                        LatitudeLabel.Text = $"Latitude: {location.Latitude}";
-                        LongitudeLabel.Text = $"Longitude: {location.Longitude}";
+                        LatitudeLabel.Text = $"{location.Latitude:F6}";
+                        LongitudeLabel.Text = $"{location.Longitude:F6}";
                     });
                 }
             }

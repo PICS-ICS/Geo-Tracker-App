@@ -1,74 +1,195 @@
 ﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GeoTrackerApp3.Views.HomePage"
-             Title="Home">
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource PageBackground}">
 
-    <Grid Padding="30" RowSpacing="25"
-          RowDefinitions="Auto, Auto, *, Auto">
+    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
 
-        <!-- Top section -->
-        <VerticalStackLayout Grid.Row="0" Spacing="15">
-            <Label Text="Welcome!" 
-                   FontSize="28" 
-                   HorizontalOptions="Center" />
+        <!-- Top App Bar -->
+        <Border Grid.Row="0"
+                BackgroundColor="{StaticResource CardBackground}"
+                StrokeThickness="0"
+                Padding="24,16"
+                StrokeShape="RoundRectangle 0,0,0,0">
+            <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="ICS Flow"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}" />
+                    <Label Text="Workforce Tracker"
+                           FontSize="12"
+                           TextColor="{StaticResource TextSecondary}" />
+                </VerticalStackLayout>
+                <Button Grid.Column="1"
+                        Text="Sign Out"
+                        Clicked="OnLogoutClicked"
+                        FontSize="12"
+                        TextColor="{StaticResource Danger}"
+                        BackgroundColor="Transparent"
+                        BorderColor="{StaticResource Danger}"
+                        BorderWidth="1"
+                        CornerRadius="8"
+                        HeightRequest="36"
+                        Padding="12,0" />
+            </Grid>
+        </Border>
 
-            <Frame x:Name="TrackingStatusFrame"
-                  BackgroundColor="#4CAF50"
-                  CornerRadius="8"
-                  Padding="6"
-                  HorizontalOptions="Center"
-                  Opacity="0"
-                  HasShadow="False">
-                <Label Text="Actively Sharing location..."
-                    TextColor="White"
-                    FontSize="14"
-                    HorizontalOptions="Center"/>
-            </Frame>
+        <!-- Main Content -->
+        <ScrollView Grid.Row="1" Padding="20,16">
+            <VerticalStackLayout Spacing="16">
 
-        </VerticalStackLayout>
+                <!-- Tracking Status Card -->
+                <Border BackgroundColor="{StaticResource CardBackground}"
+                        StrokeShape="RoundRectangle 14"
+                        Stroke="{StaticResource Border}"
+                        StrokeThickness="1"
+                        Padding="20"
+                        Shadow="{OnPlatform Default={Shadow Brush=#08000000, Offset='0,2', Radius=8}}">
+                    <VerticalStackLayout Spacing="16">
 
-        <!-- Middle section (takes up remaining space) -->
-        <VerticalStackLayout Grid.Row="2"
-                             VerticalOptions="CenterAndExpand"
-                             Spacing="20">
+                        <!-- Status Header -->
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Tracking Status"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   VerticalOptions="Center" />
 
-            <Label Text="Current Location:" 
-                   FontSize="20" 
-                   FontAttributes="Bold" 
-                   HorizontalOptions="Center" />
+                            <Border x:Name="TrackingStatusFrame"
+                                    Grid.Column="1"
+                                    BackgroundColor="#DCFCE7"
+                                    StrokeShape="RoundRectangle 12"
+                                    StrokeThickness="0"
+                                    Padding="10,5"
+                                    Opacity="0">
+                                <HorizontalStackLayout Spacing="6">
+                                    <BoxView Color="{StaticResource Success}"
+                                             WidthRequest="8"
+                                             HeightRequest="8"
+                                             CornerRadius="4"
+                                             VerticalOptions="Center" />
+                                    <Label Text="LIVE"
+                                           FontSize="11"
+                                           FontAttributes="Bold"
+                                           TextColor="#16A34A"
+                                           VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+                            </Border>
+                        </Grid>
 
-            <Label x:Name="LatitudeLabel" 
-                   Text="Latitude: ..." 
-                   FontSize="18"
-                   HorizontalOptions="Center" />
+                        <!-- Divider -->
+                        <BoxView Color="{StaticResource Border}" HeightRequest="1" />
 
-            <Label x:Name="LongitudeLabel" 
-                   Text="Longitude: ..." 
-                   FontSize="18"
-                   HorizontalOptions="Center" />
+                        <!-- Location Data -->
+                        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" RowSpacing="12" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="4">
+                                <Label Text="LATITUDE"
+                                       FontSize="10"
+                                       TextColor="{StaticResource TextMuted}"
+                                       FontAttributes="Bold" />
+                                <Label x:Name="LatitudeLabel"
+                                       Text="—"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource TextPrimary}" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="4">
+                                <Label Text="LONGITUDE"
+                                       FontSize="10"
+                                       TextColor="{StaticResource TextMuted}"
+                                       FontAttributes="Bold" />
+                                <Label x:Name="LongitudeLabel"
+                                       Text="—"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource TextPrimary}" />
+                            </VerticalStackLayout>
+                        </Grid>
 
-            <Button x:Name="ToggleTrackingButton"
-                    Text="Start Tracking"
-                    Clicked="OnToggleTrackingClicked"
-                    BackgroundColor="#4CAF50"
-                    TextColor="White"
-                    CornerRadius="8"
-                    FontAttributes="Bold"
-                    HeightRequest="50"
-                    WidthRequest="200"
-                    HorizontalOptions="Center" />
-        </VerticalStackLayout>
+                        <!-- Update info -->
+                        <Label Text="Updates every 10 seconds when active"
+                               FontSize="11"
+                               TextColor="{StaticResource TextMuted}" />
 
-        <!-- Bottom button (pinned at bottom) -->
-        <Button Text="Log Out"
-                Grid.Row="3"
-                Clicked="OnLogoutClicked"
-                BackgroundColor="#FF3B30"
-                TextColor="White"
-                HeightRequest="50"
-                CornerRadius="8"
-                Margin="0,20,0,0"
-                VerticalOptions="End"
-                HorizontalOptions="FillAndExpand"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Action Card -->
+                <Border BackgroundColor="{StaticResource CardBackground}"
+                        StrokeShape="RoundRectangle 14"
+                        Stroke="{StaticResource Border}"
+                        StrokeThickness="1"
+                        Padding="20"
+                        Shadow="{OnPlatform Default={Shadow Brush=#08000000, Offset='0,2', Radius=8}}">
+                    <VerticalStackLayout Spacing="16">
+                        <Label Text="Location Sharing"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource TextPrimary}" />
+                        <Label Text="Start sharing your location with your organization. Face verification is required before tracking begins."
+                               FontSize="13"
+                               TextColor="{StaticResource TextSecondary}"
+                               LineHeight="1.4" />
+
+                        <Button x:Name="ToggleTrackingButton"
+                                Text="Start Tracking"
+                                Clicked="OnToggleTrackingClicked"
+                                BackgroundColor="{StaticResource Success}"
+                                TextColor="White"
+                                CornerRadius="12"
+                                FontSize="15"
+                                FontAttributes="Bold"
+                                HeightRequest="50"
+                                Shadow="{OnPlatform Default={Shadow Brush=#3022C55E, Offset='0,4', Radius=10}}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Info Card -->
+                <Border BackgroundColor="#EFF6FF"
+                        StrokeShape="RoundRectangle 14"
+                        StrokeThickness="0"
+                        Padding="16">
+                    <HorizontalStackLayout Spacing="12">
+                        <Label Text="ℹ"
+                               FontSize="18"
+                               VerticalOptions="Start" />
+                        <Label Text="Your location is only shared while tracking is active. Stop tracking at any time."
+                               FontSize="12"
+                               TextColor="{StaticResource TextSecondary}"
+                               LineHeight="1.4"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Bottom Bar -->
+        <Border Grid.Row="2"
+                BackgroundColor="{StaticResource CardBackground}"
+                StrokeShape="RoundRectangle 0"
+                Stroke="{StaticResource Border}"
+                StrokeThickness="0.5"
+                Padding="0,8"
+                Shadow="{OnPlatform Default={Shadow Brush=#10000000, Offset='0,-2', Radius=8}}">
+            <Grid ColumnDefinitions="*,*,*" Padding="16,4">
+                <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" Spacing="2">
+                    <Label Text="●" FontSize="18" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                    <Label Text="Home" FontSize="10" TextColor="{StaticResource Primary}" FontAttributes="Bold" HorizontalOptions="Center" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="2">
+                    <Label Text="◉" FontSize="18" TextColor="{StaticResource TextMuted}" HorizontalOptions="Center" />
+                    <Label Text="Tracking" FontSize="10" TextColor="{StaticResource TextMuted}" HorizontalOptions="Center" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" Spacing="2">
+                    <Label Text="◯" FontSize="18" TextColor="{StaticResource TextMuted}" HorizontalOptions="Center" />
+                    <Label Text="Profile" FontSize="10" TextColor="{StaticResource TextMuted}" HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+
     </Grid>
 </ContentPage>
