@@ -36,19 +36,21 @@ public class MainActivity : MauiAppCompatActivity
         // Configure WebView for camera access with optimizations
         Microsoft.Maui.Handlers.WebViewHandler.Mapper.AppendToMapping("CameraWebView", (handler, view) =>
         {
-            if (handler.PlatformView is Android.Webkit.WebView webView)
+            try
             {
-                webView.Settings.JavaScriptEnabled = true;
-                webView.Settings.DomStorageEnabled = true;
-                webView.Settings.MediaPlaybackRequiresUserGesture = false;
+                if (handler.PlatformView is Android.Webkit.WebView webView)
+                {
+                    webView.Settings.JavaScriptEnabled = true;
+                    webView.Settings.DomStorageEnabled = true;
+                    webView.Settings.MediaPlaybackRequiresUserGesture = false;
                 
-                // Performance optimizations
-                webView.Settings.CacheMode = CacheModes.CacheElseNetwork; // Enable caching
-                webView.Settings.SetRenderPriority(WebSettings.RenderPriority.High);
-                webView.Settings.DatabaseEnabled = false; // Disable if not needed
-                webView.Settings.SetGeolocationEnabled(false); // Disable if not needed
-                
-                webView.SetWebChromeClient(new CameraWebChromeClient(this));
+                    // Performance optimizations
+                    webView.Settings.CacheMode = CacheModes.CacheElseNetwork;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"WebViewMapper error: {ex.Message}");
             }
         });
 

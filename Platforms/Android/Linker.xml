@@ -3,5 +3,8 @@
   <assembly fullname="System.Net.Http" />
   <assembly fullname="System.Text.Json" />
   <assembly fullname="System.Security.Cryptography" />
+  <assembly fullname="System.Security.Cryptography.X509Certificates" />
+  <assembly fullname="Mono.Android" />
+  <assembly fullname="Xamarin.AndroidX.Core" />
   <assembly fullname="GeoTrackerApp3" />
 </linker>

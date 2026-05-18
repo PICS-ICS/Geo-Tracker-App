@@ -48,39 +48,121 @@ namespace GeoTrackerApp3.Views
         }
 
 #if ANDROID
-        private void ConfigureAndroidWebView(Android.Webkit.WebView webView)
+private void ConfigureAndroidWebView(Android.Webkit.WebView webView)
+{
+    try
+    {
+        var settings = webView.Settings;
+                
+        // Enable JavaScript and related features
+        settings.JavaScriptEnabled = true;
+        settings.DomStorageEnabled = true;
+        settings.DatabaseEnabled = true;
+        settings.MediaPlaybackRequiresUserGesture = false;
+                
+        // Enable hardware acceleration for better performance
+        webView.SetLayerType(Android.Views.LayerType.Hardware, null);
+                
+        // Additional settings for camera/media
+        settings.JavaScriptCanOpenWindowsAutomatically = true;
+        settings.SetGeolocationEnabled(true);
+        settings.AllowFileAccess = true;
+        settings.AllowContentAccess = true;
+
+        // Enable mixed content (needed for some pages)
+        settings.MixedContentMode = Android.Webkit.MixedContentHandling.AlwaysAllow;
+
+        // Set custom WebViewClient to handle SSL errors for trusted domains
+        webView.SetWebViewClient(new TrustedDomainWebViewClient(
+            () => LoadingOverlay.IsVisible = false,
+            (url) => HandleCustomUrl(url)
+        ));
+                
+        // Set custom WebChromeClient to handle permissions
+        webView.SetWebChromeClient(new CustomWebChromeClient());
+                
+        Debug.WriteLine("WebViewTestPage: Android WebView configured with camera permissions and SSL bypass");
+    }
+    catch (Exception ex)
+    {
+        Debug.WriteLine($"WebViewTestPage: Error configuring Android WebView - {ex.Message}");
+    }
+}
+
+private class TrustedDomainWebViewClient : WebViewClient
+{
+    private readonly Action _onPageLoaded;
+    private readonly Action<string> _onCustomUrl;
+
+    public TrustedDomainWebViewClient(Action onPageLoaded, Action<string> onCustomUrl)
+    {
+        _onPageLoaded = onPageLoaded;
+        _onCustomUrl = onCustomUrl;
+    }
+
+    private static readonly HashSet<string> TrustedHosts = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "picsconfig.ics.co.za",
+        "picsapiconfig.ics.co.za",
+        "pics.ics.co.za"
+    };
+
+    public override void OnReceivedSslError(Android.Webkit.WebView view, SslErrorHandler handler, Android.Net.Http.SslError error)
+    {
+        var url = error.Url;
+        Debug.WriteLine($"WebViewClient: SSL error for URL: {url}, Error: {error.PrimaryError}");
+
+        try
         {
-            try
+            if (!string.IsNullOrEmpty(url))
             {
-                var settings = webView.Settings;
-                
-                // Enable JavaScript and related features
-                settings.JavaScriptEnabled = true;
-                settings.DomStorageEnabled = true;
-                settings.DatabaseEnabled = true;
-                settings.MediaPlaybackRequiresUserGesture = false;
-                
-                // Enable hardware acceleration for better performance
-                webView.SetLayerType(Android.Views.LayerType.Hardware, null);
-                
-                // Additional settings for camera/media
-                settings.JavaScriptCanOpenWindowsAutomatically = true;
-                settings.SetGeolocationEnabled(true);
-                settings.AllowFileAccess = true;
-                settings.AllowContentAccess = true;
-                
-                // Set custom WebChromeClient to handle permissions
-                webView.SetWebChromeClient(new CustomWebChromeClient());
-                
-                Debug.WriteLine("WebViewTestPage: Android WebView configured with camera permissions");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"WebViewTestPage: Error configuring Android WebView - {ex.Message}");
+                var host = new Uri(url).Host;
+                if (TrustedHosts.Contains(host))
+                {
+                    Debug.WriteLine($"WebViewClient: Proceeding for trusted host: {host}");
+                    handler.Proceed();
+                    return;
+                }
             }
         }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"WebViewClient: Error parsing URL - {ex.Message}");
+        }
 
-        private class CustomWebChromeClient : WebChromeClient
+        Debug.WriteLine("WebViewClient: Cancelling SSL for untrusted host");
+        handler.Cancel();
+    }
+
+    public override void OnPageFinished(Android.Webkit.WebView view, string url)
+    {
+        base.OnPageFinished(view, url);
+        Debug.WriteLine($"WebViewClient: Page finished loading: {url}");
+
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            _onPageLoaded?.Invoke();
+        });
+    }
+
+    public override bool ShouldOverrideUrlLoading(Android.Webkit.WebView view, IWebResourceRequest request)
+    {
+        var url = request.Url?.ToString();
+        Debug.WriteLine($"WebViewClient: Loading URL: {url}");
+
+        if (url != null && url.StartsWith("geotracker://"))
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                _onCustomUrl?.Invoke(url);
+            });
+            return true;
+        }
+        return false;
+    }
+}
+
+private class CustomWebChromeClient : WebChromeClient
         {
             public override void OnPermissionRequest(PermissionRequest request)
             {
