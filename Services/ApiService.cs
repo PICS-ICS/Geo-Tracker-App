@@ -37,10 +37,16 @@ namespace GeoTrackerApp3.Services
                 }
             };
 #else
-            var handler = new HttpClientHandler
-            {
-                SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13,
-            };
+var handler = new HttpClientHandler
+{
+    SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13,
+    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
+    {
+        if (message.RequestUri?.Host == "picsapiconfig.ics.co.za")
+            return true;
+        return errors == System.Net.Security.SslPolicyErrors.None;
+    }
+};
 #endif
 
             return new HttpClient(handler)

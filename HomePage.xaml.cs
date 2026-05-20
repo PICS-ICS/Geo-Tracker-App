@@ -15,6 +15,10 @@ namespace GeoTrackerApp3.Views
         private bool _isTracking = false;
         private CancellationTokenSource _cts;
 
+#if IOS
+        private GeoTrackerApp3.Platforms.iOS.iOSLocationService _iOSLocationService;
+#endif
+
         // Cache frequently accessed values to reduce SecureStorage calls
         private string _cachedMemberId;
         private string _cachedCompanyId;
@@ -153,6 +157,9 @@ namespace GeoTrackerApp3.Views
             intent.PutExtra("memberId", Convert.ToInt32(_cachedMemberId));
             intent.PutExtra("companyId", Convert.ToInt32(_cachedCompanyId));
             context.StartForegroundService(intent);
+#elif IOS
+            _iOSLocationService = new GeoTrackerApp3.Platforms.iOS.iOSLocationService();
+            _iOSLocationService.Start(_token, Convert.ToInt32(_cachedMemberId), Convert.ToInt32(_cachedCompanyId));
 #endif
         }
 
@@ -162,6 +169,9 @@ namespace GeoTrackerApp3.Views
             var context = Android.App.Application.Context;
             var intent = new Android.Content.Intent(context, typeof(Platforms.Android.LocationForegroundService));
             context.StopService(intent);
+#elif IOS
+            _iOSLocationService?.Stop();
+            _iOSLocationService = null;
 #endif
         }
 

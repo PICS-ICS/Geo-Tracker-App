@@ -30,10 +30,32 @@
 	<string>We need your location to track your movement every 5 minutes.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need your location to track your movement every 5 minutes.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera access is required for face verification.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 	    <string>location</string>
 	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>picsapiconfig.ics.co.za</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+			<key>picsconfig.ics.co.za</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
 </dict>
