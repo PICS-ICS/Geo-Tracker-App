@@ -51,28 +51,28 @@ namespace GeoTrackerApp3.Views
         {
             if (!_isTracking)
             {
-                // Open face verification
-                System.Diagnostics.Debug.WriteLine("HomePage: Opening face verification");
+                //// Open face verification
+                //System.Diagnostics.Debug.WriteLine("HomePage: Opening face verification");
                 
-                var webViewPage = new WebViewTestPage();
-                await Navigation.PushModalAsync(webViewPage);
+                //var webViewPage = new WebViewTestPage();
+                //await Navigation.PushModalAsync(webViewPage);
                 
-                // Wait for result
-                var result = await webViewPage.GetAuthResultAsync();
+                //// Wait for result
+                //var result = await webViewPage.GetAuthResultAsync();
                 
-                if (result == null)
-                {
-                    System.Diagnostics.Debug.WriteLine("HomePage: Cancelled");
-                    return;
-                }
+                //if (result == null)
+                //{
+                //    System.Diagnostics.Debug.WriteLine("HomePage: Cancelled");
+                //    return;
+                //}
 
-                if (!result.Match)
-                {
-                    await DisplayAlert("Failed", result.Message + ":" + result.Match.ToString()+ ":" + result.MemberID.ToString() ?? "Verification failed", "OK");
-                    return;
-                }
+                //if (!result.Match)
+                //{
+                //    await DisplayAlert("Failed", result.Message + ":" + result.Match.ToString()+ ":" + result.MemberID.ToString() ?? "Verification failed", "OK");
+                //    return;
+                //}
 
-                System.Diagnostics.Debug.WriteLine($"HomePage: Verified MemberID={result.MemberID}");
+                //System.Diagnostics.Debug.WriteLine($"HomePage: Verified MemberID={result.MemberID}");
                 
                 // --- START TRACKING ---
                 _isTracking = true;
@@ -114,6 +114,7 @@ namespace GeoTrackerApp3.Views
             while (!token.IsCancellationRequested)
             {
                 await UpdateLocationUIAsync();
+                await UpdateSyncStatusAsync();
 
                 try
                 {
@@ -175,6 +176,49 @@ namespace GeoTrackerApp3.Views
 #endif
         }
 
+        private async Task UpdateSyncStatusAsync()
+        {
+            try
+            {
+                var pendingCount = await LocationQueueService.GetPendingCountAsync();
+                var isOnline = Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    SyncStatusBorder.IsVisible = _isTracking;
+
+                    if (!isOnline)
+                    {
+                        SyncStatusBorder.BackgroundColor = Color.FromArgb("#FFF3E0");
+                        SyncStatusIcon.Text = "⚠️";
+                        SyncStatusText.Text = "Offline";
+                        SyncStatusText.TextColor = Color.FromArgb("#E65100");
+                        SyncStatusDetail.Text = $"{pendingCount} pings queued • Will auto-sync";
+                    }
+                    else if (pendingCount > 0)
+                    {
+                        SyncStatusBorder.BackgroundColor = Color.FromArgb("#FFF3E0");
+                        SyncStatusIcon.Text = "🔄";
+                        SyncStatusText.Text = "Syncing";
+                        SyncStatusText.TextColor = Color.FromArgb("#E65100");
+                        SyncStatusDetail.Text = $"{pendingCount} pings pending";
+                    }
+                    else
+                    {
+                        SyncStatusBorder.BackgroundColor = Color.FromArgb("#E8F5E9");
+                        SyncStatusIcon.Text = "✅";
+                        SyncStatusText.Text = "Connected";
+                        SyncStatusText.TextColor = Color.FromArgb("#2E7D32");
+                        SyncStatusDetail.Text = "All pings sent";
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Sync status update error: {ex.Message}");
+            }
+        }
+
         private void OnLogoutClicked(object sender, EventArgs e)
         {
             try
@@ -196,6 +240,22 @@ namespace GeoTrackerApp3.Views
             Preferences.Remove("Username");
 
             Application.Current.MainPage = new NavigationPage(new LoginPage());
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            // Always refresh sync status when returning to the page
+            await UpdateSyncStatusAsync();
+
+            // Restart the UI update loop if tracking is active but loop was stopped
+            if (_isTracking && (_cts == null || _cts.IsCancellationRequested))
+            {
+                _cts?.Dispose();
+                _cts = new CancellationTokenSource();
+                _ = StartTrackingAsync(_cts.Token);
+            }
         }
 
         protected override void OnDisappearing()

@@ -109,6 +109,29 @@
                             </VerticalStackLayout>
                         </Grid>
 
+                        <!-- Sync Status Indicator -->
+                        <Border x:Name="SyncStatusBorder"
+                                BackgroundColor="#E8F5E9"
+                                StrokeShape="RoundRectangle 8"
+                                StrokeThickness="0"
+                                Padding="12,8"
+                                IsVisible="False">
+                            <HorizontalStackLayout Spacing="8">
+                                <Label x:Name="SyncStatusIcon" Text="✅" FontSize="14" VerticalOptions="Center" />
+                                <VerticalStackLayout Spacing="2">
+                                    <Label x:Name="SyncStatusText"
+                                           Text="Connected"
+                                           FontSize="13"
+                                           FontAttributes="Bold"
+                                           TextColor="#2E7D32" />
+                                    <Label x:Name="SyncStatusDetail"
+                                           Text=""
+                                           FontSize="11"
+                                           TextColor="Gray" />
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+                        </Border>
+
                         <!-- Update info -->
                         <Label Text="Updates every 10 seconds when active"
                                FontSize="11"

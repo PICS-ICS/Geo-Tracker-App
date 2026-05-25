@@ -27,7 +27,7 @@
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>2</ApplicationVersion>
+		<ApplicationVersion>4</ApplicationVersion>
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
 		<WindowsPackageType>None</WindowsPackageType>
@@ -51,7 +51,10 @@
 
 	<!-- Performance optimizations for Android Release builds -->
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net9.0-android'">
-		<!-- Enable AOT compilation for faster startup -->
+	<!-- Support 16 KB memory page sizes required by Google Play -->
+	<AndroidElfAlignment>16</AndroidElfAlignment>
+
+	<!-- Enable AOT compilation for faster startup -->
 		<RunAOTCompilation>true</RunAOTCompilation>
 		<AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
 		
@@ -104,6 +107,7 @@
 		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 	</ItemGroup>
 
 	<ItemGroup>

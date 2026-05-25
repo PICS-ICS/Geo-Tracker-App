@@ -221,6 +221,13 @@ var handler = new HttpClientHandler
                     return ApiResult.Failure("No authentication token provided.");
                 }
 
+                // Check connectivity before attempting to send
+                if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+                {
+                    await LocationQueueService.EnqueueAsync(request);
+                    return ApiResult.Failure("No internet — location queued for later sync.");
+                }
+
                 request.ipAddress = await GetPublicIpAddressAsync();
 
                 using var requestMessage = new HttpRequestMessage(HttpMethod.Post, "/api/LocationPings/Create");
@@ -233,6 +240,8 @@ var handler = new HttpClientHandler
 
                 if (response.IsSuccessStatusCode)
                 {
+                    // Connection is back — try syncing any queued pings in the background
+                    _ = Task.Run(() => LocationQueueService.SyncAsync(token));
                     return ApiResult.Success("Location updated successfully.");
                 }
                 else
@@ -243,7 +252,73 @@ var handler = new HttpClientHandler
             }
             catch (TaskCanceledException)
             {
-                return ApiResult.Failure("Request timed out");
+                await LocationQueueService.EnqueueAsync(request);
+                return ApiResult.Failure("Request timed out — location queued.");
+            }
+            catch (HttpRequestException)
+            {
+                await LocationQueueService.EnqueueAsync(request);
+                return ApiResult.Failure("Network error — location queued.");
+            }
+            catch (Exception ex)
+            {
+                await LocationQueueService.EnqueueAsync(request);
+                return ApiResult.Failure(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Sends a batch of queued location pings to the API.
+        /// NOTE: The batch endpoint does not exist yet — uncomment the real call once created.
+        /// </summary>
+        public static async Task<ApiResult> SendLocationBatchAsync(List<LocationData> locations, string token)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(token))
+                    return ApiResult.Failure("No authentication token provided.");
+
+                 // Wrap in the object structure the API expects, mapping property names to match API schema
+                 var payload = new
+                 {
+                     locationPings = locations.Select(l => new
+                     {
+                         memberId = l.memberID,
+                         lat = l.lat,
+                         lon = l.lon,
+                         pingTime = l.pingTime,
+                         deviceOs = l.deviceOS,
+                         deviceModel = l.deviceModel,
+                         ipaddress = l.ipAddress
+                     }).ToList()
+                 };
+
+                 using var requestMessage = new HttpRequestMessage(HttpMethod.Post, "/api/LocationPings/CreateBatch");
+                 requestMessage.Headers.Authorization =
+                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                 requestMessage.Content = JsonContent.Create(payload);
+                
+                 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                 var response = await HttpClient.SendAsync(requestMessage, cts.Token);
+                
+                 if (response.IsSuccessStatusCode)
+                     return ApiResult.Success("Batch synced successfully.");
+                
+                 var msg = await TryGetErrorMessage(response);
+                 return ApiResult.Failure(msg ?? $"Server returned {(int)response.StatusCode}");
+
+                //// Temporary: send one by one until batch endpoint exists
+                //foreach (var location in locations)
+                //{
+                //    var result = await SendLocationAsync(location, token);
+                //    if (!result.IsSuccess)
+                //        return ApiResult.Failure($"Failed during individual sync: {result.ErrorMessage}");
+                //}
+                //return ApiResult.Success("Batch synced successfully (individual sends).");
+            }
+            catch (TaskCanceledException)
+            {
+                return ApiResult.Failure("Batch request timed out");
             }
             catch (Exception ex)
             {
