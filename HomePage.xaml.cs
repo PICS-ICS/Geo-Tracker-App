@@ -51,28 +51,28 @@ namespace GeoTrackerApp3.Views
         {
             if (!_isTracking)
             {
-                //// Open face verification
-                //System.Diagnostics.Debug.WriteLine("HomePage: Opening face verification");
+                // Open face verification
+                System.Diagnostics.Debug.WriteLine("HomePage: Opening face verification");
                 
-                //var webViewPage = new WebViewTestPage();
-                //await Navigation.PushModalAsync(webViewPage);
+                var webViewPage = new WebViewTestPage();
+                await Navigation.PushModalAsync(webViewPage);
                 
-                //// Wait for result
-                //var result = await webViewPage.GetAuthResultAsync();
+                // Wait for result
+                var result = await webViewPage.GetAuthResultAsync();
                 
-                //if (result == null)
-                //{
-                //    System.Diagnostics.Debug.WriteLine("HomePage: Cancelled");
-                //    return;
-                //}
+                if (result == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("HomePage: Cancelled");
+                    return;
+                }
 
-                //if (!result.Match)
-                //{
-                //    await DisplayAlert("Failed", result.Message + ":" + result.Match.ToString()+ ":" + result.MemberID.ToString() ?? "Verification failed", "OK");
-                //    return;
-                //}
+                if (!result.Match)
+                {
+                    await DisplayAlert("Failed", result.Message + ":" + result.Match.ToString()+ ":" + result.MemberID.ToString() ?? "Verification failed", "OK");
+                    return;
+                }
 
-                //System.Diagnostics.Debug.WriteLine($"HomePage: Verified MemberID={result.MemberID}");
+                System.Diagnostics.Debug.WriteLine($"HomePage: Verified MemberID={result.MemberID}");
                 
                 // --- START TRACKING ---
                 _isTracking = true;
