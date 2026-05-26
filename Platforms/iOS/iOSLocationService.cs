@@ -14,8 +14,9 @@ public class iOSLocationService
     private int _memberId;
     private int _companyId;
     private DateTime _lastSendTime = DateTime.MinValue;
+    private CLLocation? _lastKnownLocation;
+    private NSTimer? _pingTimer;
     private static readonly TimeSpan MIN_SEND_INTERVAL = TimeSpan.FromSeconds(10);
-    private Timer? _pingTimer;
 
     public void Start(string token, int memberId, int companyId)
     {
@@ -35,16 +36,23 @@ public class iOSLocationService
         _locationManager.Failed += OnLocationManagerFailed;
         _locationManager.StartUpdatingLocation();
 
-        // Use a timer to ensure periodic location sends even when stationary
-        _pingTimer = new Timer(OnPingTimerElapsed, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10));
+        // Use NSTimer (runs on main thread) to periodically send last known location
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            _pingTimer = NSTimer.CreateRepeatingScheduledTimer(10.0, timer => OnPingTimerElapsed());
+        });
 
         Debug.WriteLine("[iOS Location] Service started");
     }
 
     public void Stop()
     {
-        _pingTimer?.Dispose();
-        _pingTimer = null;
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            _pingTimer?.Invalidate();
+            _pingTimer?.Dispose();
+            _pingTimer = null;
+        });
 
         if (_locationManager != null)
         {
@@ -55,13 +63,17 @@ public class iOSLocationService
             _locationManager = null;
         }
 
+        _lastKnownLocation = null;
         Debug.WriteLine("[iOS Location] Service stopped");
     }
 
-    private void OnPingTimerElapsed(object? state)
+    private void OnPingTimerElapsed()
     {
-        // Request a fresh location to trigger LocationsUpdated
-        _locationManager?.RequestLocation();
+        // If no location update has been sent recently, send the last known location
+        if (_lastKnownLocation != null && DateTime.UtcNow - _lastSendTime >= MIN_SEND_INTERVAL)
+        {
+            _ = SendLocationToApiAsync(_lastKnownLocation);
+        }
     }
 
     private void OnLocationManagerFailed(object? sender, NSErrorEventArgs e)
@@ -73,14 +85,28 @@ public class iOSLocationService
     {
         try
         {
-            // Throttle sends to avoid flooding the API
-            if (DateTime.UtcNow - _lastSendTime < MIN_SEND_INTERVAL)
-                return;
-
             var location = e.Locations[^1]; // Latest location
             if (location == null)
                 return;
 
+            _lastKnownLocation = location;
+
+            // Throttle sends to avoid flooding the API
+            if (DateTime.UtcNow - _lastSendTime < MIN_SEND_INTERVAL)
+                return;
+
+            await SendLocationToApiAsync(location);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"[iOS Location] Error: {ex.Message}");
+        }
+    }
+
+    private async Task SendLocationToApiAsync(CLLocation location)
+    {
+        try
+        {
             _lastSendTime = DateTime.UtcNow;
 
             var data = new LocationData
@@ -104,7 +130,7 @@ public class iOSLocationService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"[iOS Location] Error: {ex.Message}");
+            Debug.WriteLine($"[iOS Location] Send error: {ex.Message}");
         }
     }
 }
