@@ -15,6 +15,7 @@ public class iOSLocationService
     private int _companyId;
     private DateTime _lastSendTime = DateTime.MinValue;
     private static readonly TimeSpan MIN_SEND_INTERVAL = TimeSpan.FromSeconds(10);
+    private Timer? _pingTimer;
 
     public void Start(string token, int memberId, int companyId)
     {
@@ -24,29 +25,48 @@ public class iOSLocationService
 
         _locationManager = new CLLocationManager
         {
-            DesiredAccuracy = CLLocation.AccuracyHundredMeters,
+            DesiredAccuracy = CLLocation.AccuracyBest,
             AllowsBackgroundLocationUpdates = true,
             PausesLocationUpdatesAutomatically = false,
-            DistanceFilter = 10 // meters
+            DistanceFilter = CLLocationDistance.FilterNone
         };
 
         _locationManager.LocationsUpdated += OnLocationsUpdated;
+        _locationManager.Failed += OnLocationManagerFailed;
         _locationManager.StartUpdatingLocation();
+
+        // Use a timer to ensure periodic location sends even when stationary
+        _pingTimer = new Timer(OnPingTimerElapsed, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10));
 
         Debug.WriteLine("[iOS Location] Service started");
     }
 
     public void Stop()
     {
+        _pingTimer?.Dispose();
+        _pingTimer = null;
+
         if (_locationManager != null)
         {
             _locationManager.LocationsUpdated -= OnLocationsUpdated;
+            _locationManager.Failed -= OnLocationManagerFailed;
             _locationManager.StopUpdatingLocation();
             _locationManager.Dispose();
             _locationManager = null;
         }
 
         Debug.WriteLine("[iOS Location] Service stopped");
+    }
+
+    private void OnPingTimerElapsed(object? state)
+    {
+        // Request a fresh location to trigger LocationsUpdated
+        _locationManager?.RequestLocation();
+    }
+
+    private void OnLocationManagerFailed(object? sender, NSErrorEventArgs e)
+    {
+        Debug.WriteLine($"[iOS Location] Manager failed: {e.Error?.LocalizedDescription}");
     }
 
     private async void OnLocationsUpdated(object? sender, CLLocationsUpdatedEventArgs e)
