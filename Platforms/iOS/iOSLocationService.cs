@@ -9,6 +9,8 @@ namespace GeoTrackerApp3.Platforms.iOS;
 
 public class iOSLocationService
 {
+    private static iOSLocationService? _instance;
+
     private CLLocationManager? _locationManager;
     private string _token = string.Empty;
     private int _memberId;
@@ -23,6 +25,10 @@ public class iOSLocationService
         _token = token;
         _memberId = memberId;
         _companyId = companyId;
+        _instance = this;
+
+        // Persist tracking state so we can resume after app relaunch
+        Preferences.Set("ios_tracking_active", true);
 
         _locationManager = new CLLocationManager
         {
@@ -36,17 +42,24 @@ public class iOSLocationService
         _locationManager.Failed += OnLocationManagerFailed;
         _locationManager.StartUpdatingLocation();
 
+        // Also start significant location change monitoring
+        // This allows iOS to relaunch the app after termination when the device moves ~500m
+        _locationManager.StartMonitoringSignificantLocationChanges();
+
         // Use NSTimer (runs on main thread) to periodically send last known location
         MainThread.BeginInvokeOnMainThread(() =>
         {
             _pingTimer = NSTimer.CreateRepeatingScheduledTimer(10.0, timer => OnPingTimerElapsed());
         });
 
-        Debug.WriteLine("[iOS Location] Service started");
+        Debug.WriteLine("[iOS Location] Service started with significant location monitoring");
     }
 
     public void Stop()
     {
+        Preferences.Set("ios_tracking_active", false);
+        _instance = null;
+
         MainThread.BeginInvokeOnMainThread(() =>
         {
             _pingTimer?.Invalidate();
@@ -56,6 +69,7 @@ public class iOSLocationService
 
         if (_locationManager != null)
         {
+            _locationManager.StopMonitoringSignificantLocationChanges();
             _locationManager.LocationsUpdated -= OnLocationsUpdated;
             _locationManager.Failed -= OnLocationManagerFailed;
             _locationManager.StopUpdatingLocation();
@@ -65,6 +79,42 @@ public class iOSLocationService
 
         _lastKnownLocation = null;
         Debug.WriteLine("[iOS Location] Service stopped");
+    }
+
+    /// <summary>
+    /// Called from AppDelegate when the app is relaunched due to a significant location change.
+    /// Resumes tracking using persisted credentials.
+    /// </summary>
+    public static async Task ResumeIfNeededAsync()
+    {
+        if (!Preferences.Get("ios_tracking_active", false))
+            return;
+
+        // Already running
+        if (_instance != null)
+            return;
+
+        try
+        {
+            var token = await SecureStorage.GetAsync("api_token") ?? string.Empty;
+            var memberIdStr = await SecureStorage.GetAsync("logged_in_memberID") ?? "0";
+            var companyIdStr = await SecureStorage.GetAsync("logged_in_companyID") ?? "0";
+
+            if (string.IsNullOrEmpty(token))
+            {
+                Debug.WriteLine("[iOS Location] Cannot resume - no token");
+                return;
+            }
+
+            var service = new iOSLocationService();
+            service.Start(token, Convert.ToInt32(memberIdStr), Convert.ToInt32(companyIdStr));
+
+            Debug.WriteLine("[iOS Location] Resumed tracking after app relaunch");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"[iOS Location] Resume error: {ex.Message}");
+        }
     }
 
     private void OnPingTimerElapsed()
@@ -121,12 +171,31 @@ public class iOSLocationService
                 deviceModel = UIDevice.CurrentDevice.Model
             };
 
-            var result = await ApiService.SendLocationAsync(data, _token);
+            // Check if we're online
+            if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
+            {
+                // Try to send, queue if it fails
+                var result = await ApiService.SendLocationAsync(data, _token);
 
-            if (!result.IsSuccess)
-                Debug.WriteLine($"[iOS Location] API error: {result.ErrorMessage}");
+                if (!result.IsSuccess)
+                {
+                    Debug.WriteLine($"[iOS Location] API error, queuing: {result.ErrorMessage}");
+                    await LocationQueueService.EnqueueAsync(data);
+                }
+                else
+                {
+                    Debug.WriteLine($"[iOS Location] Sent: {data.lat},{data.lon}");
+
+                    // Also try to sync any previously queued offline points
+                    _ = LocationQueueService.SyncAsync(_token);
+                }
+            }
             else
-                Debug.WriteLine($"[iOS Location] Sent: {data.lat},{data.lon}");
+            {
+                // Offline — queue for later sync
+                Debug.WriteLine($"[iOS Location] Offline, queuing: {data.lat},{data.lon}");
+                await LocationQueueService.EnqueueAsync(data);
+            }
         }
         catch (Exception ex)
         {
