@@ -9,7 +9,7 @@ namespace GeoTrackerApp3.Services
 {
     public static class ApiService
     {
-        private static readonly string BaseUrl = "https://picsapiconfig.ics.co.za";
+        private static readonly string BaseUrl = "https://picsapilive.ics.co.za";
         
         // Lazy initialization - only create HttpClient when needed
         private static readonly Lazy<HttpClient> _lazyHttpClient = new Lazy<HttpClient>(CreateHttpClient);
@@ -30,7 +30,7 @@ namespace GeoTrackerApp3.Services
                 ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
                 {
                     // Only bypass validation for our API domain
-                    if (message.RequestUri?.Host == "picsapiconfig.ics.co.za")
+                    if (message.RequestUri?.Host == "picsapilive.ics.co.za")
                         return true;
 
                     return errors == System.Net.Security.SslPolicyErrors.None;
@@ -42,7 +42,7 @@ var handler = new HttpClientHandler
     SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13,
     ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
     {
-        if (message.RequestUri?.Host == "picsapiconfig.ics.co.za")
+        if (message.RequestUri?.Host == "picsapilive.ics.co.za")
             return true;
         return errors == System.Net.Security.SslPolicyErrors.None;
     }

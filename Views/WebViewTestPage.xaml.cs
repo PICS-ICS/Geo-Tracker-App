@@ -104,6 +104,7 @@ private class TrustedDomainWebViewClient : WebViewClient
     {
         "picsconfig.ics.co.za",
         "picsapiconfig.ics.co.za",
+        "picsapilive.ics.co.za",
         "pics.ics.co.za"
     };
 
@@ -237,7 +238,7 @@ private class CustomWebChromeClient : WebChromeClient
 
                 Debug.WriteLine($"WebViewTestPage: CompanyID={_companyId}, ExpectedMemberID={_expectedMemberId}");
 
-                var url = $"https://picsconfig.ics.co.za/Home/UserRegistration?companyID={_companyId}&source=mobile&faDebug=1";
+                var url = $"https://pics.ics.co.za/Home/UserRegistration?companyID={_companyId}&source=mobile&faDebug=1";
                 
                 TestWebView.Source = url;
                 Debug.WriteLine($"WebViewTestPage: Loading {url}");
@@ -245,7 +246,7 @@ private class CustomWebChromeClient : WebChromeClient
             catch (Exception ex)
             {
                 Debug.WriteLine($"WebViewTestPage: Error - {ex.Message}");
-                TestWebView.Source = "https://picsconfig.ics.co.za/Home/UserRegistration?source=mobile&faDebug=1";
+                TestWebView.Source = "https://pics.ics.co.za/Home/UserRegistration?source=mobile&faDebug=1";
             }
         }
 
