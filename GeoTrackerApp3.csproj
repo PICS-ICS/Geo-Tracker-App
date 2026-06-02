@@ -43,6 +43,7 @@
 	<!-- Ensure iOS/Mac builds don't get locked to x64 PlatformTarget -->
 	<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' Or $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
 		<PlatformTarget></PlatformTarget>
+		<_NotifySpotlight>false</_NotifySpotlight>
 	</PropertyGroup>
 
 	<PropertyGroup>
