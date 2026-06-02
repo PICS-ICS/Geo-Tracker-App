@@ -43,9 +43,11 @@
 	<!-- Ensure iOS/Mac builds don't get locked to x64 PlatformTarget -->
 	<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' Or $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
 		<PlatformTarget></PlatformTarget>
-		<_NotifySpotlight>false</_NotifySpotlight>
 		<MtouchLink>SdkOnly</MtouchLink>
 	</PropertyGroup>
+
+	<!-- Skip Spotlight indexing (mdimport hangs on shared VMs) -->
+	<Target Name="_NotifySpotlight" />
 
 	<PropertyGroup>
 	  <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
