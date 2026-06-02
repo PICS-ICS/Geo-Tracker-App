@@ -140,10 +140,7 @@
 		<EnableSpotlightIndexing>false</EnableSpotlightIndexing>
 	</PropertyGroup>
 
-	<Target Name="_NotifySpotlight"
-	        BeforeTargets="_PostProcessAppBundle"
-	        AfterTargets="_NativeStripFiles"
-	        Returns="">
-		<!-- Empty override - prevents mdimport from running on MacInCloud -->
+	<Target Name="_NotifySpotlight">
+		<Message Text="Skipping Spotlight indexing" Importance="high" />
 	</Target>
 </Project>
