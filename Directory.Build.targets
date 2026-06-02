@@ -1,0 +1,8 @@
+<Project>
+  <!-- Override _NotifySpotlight to prevent mdimport from running (hangs on shared VMs) -->
+  <Target Name="_NotifySpotlight"
+          BeforeTargets=""
+          AfterTargets=""
+          DependsOnTargets=""
+          Condition="false" />
+</Project>
