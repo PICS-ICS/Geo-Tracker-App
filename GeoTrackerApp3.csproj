@@ -135,4 +135,7 @@
 		<TrimmerRootDescriptor Include="Platforms\Android\Linker.xml" />
 	</ItemGroup>
 
+	<Target Name="_NotifySpotlight" AfterTargets="_NativeStripFiles">
+		<Message Text="Skipping Spotlight indexing" Importance="high" />
+	</Target>
 </Project>
