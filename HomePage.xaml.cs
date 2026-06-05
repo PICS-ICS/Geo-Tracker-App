@@ -63,12 +63,15 @@ namespace GeoTrackerApp3.Views
                 if (result == null)
                 {
                     System.Diagnostics.Debug.WriteLine("HomePage: Cancelled");
+                    await DisplayAlert("Failed", "Face Verification Failed!", "OK");
                     return;
                 }
 
                 if (!result.Match)
                 {
-                    await DisplayAlert("Failed", result.Message + ":" + result.Match.ToString()+ ":" + result.MemberID.ToString() ?? "Verification failed", "OK");
+                    await DisplayAlert("Failed", "Face did not match logged in user!", "OK");
+
+                    //await DisplayAlert("Failed", result.Message + ":" + result.Match.ToString()+ ":" + result.MemberID.ToString() ?? "Verification failed", "OK");
                     return;
                 }
 
