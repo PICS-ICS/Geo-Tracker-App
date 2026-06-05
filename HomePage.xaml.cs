@@ -69,6 +69,7 @@ namespace GeoTrackerApp3.Views
 
                 if (!result.Match)
                 {
+                    await Task.Delay(700);
                     await DisplayAlert("Failed", "Face did not match logged in user!", "OK");
 
                     //await DisplayAlert("Failed", result.Message + ":" + result.Match.ToString()+ ":" + result.MemberID.ToString() ?? "Verification failed", "OK");
