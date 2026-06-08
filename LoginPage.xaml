@@ -89,6 +89,17 @@
                             Margin="0,8,0,0"
                             Shadow="{OnPlatform Default={Shadow Brush=#30243B8F, Offset='0,4', Radius=12}}" />
 
+                    <!-- Forgot Password -->
+                    <Label Text="Forgot password?"
+                           FontSize="14"
+                           TextColor="{StaticResource Primary}"
+                           HorizontalOptions="Center"
+                           Margin="0,-8,0,0">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnForgotPasswordTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
                     <!-- Activity Indicator -->
                     <ActivityIndicator x:Name="BusyIndicator"
                                        IsVisible="False"

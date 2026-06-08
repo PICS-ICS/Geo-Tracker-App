@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Storage;
 using GeoTrackerApp3.Services;
@@ -8,6 +9,8 @@ namespace GeoTrackerApp3.Views
 {
     public partial class LoginPage : ContentPage
     {
+        private const string ForgotPasswordUrl = "https://pics.ics.co.za/Home/ForgetPassword";
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
@@ -87,6 +90,18 @@ namespace GeoTrackerApp3.Views
             finally
             {
                 SetBusy(false);
+            }
+        }
+
+        private async void OnForgotPasswordTapped(object sender, TappedEventArgs e)
+        {
+            try
+            {
+                await Browser.Default.OpenAsync(ForgotPasswordUrl, BrowserLaunchMode.SystemPreferred);
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Unable to open link", ex.Message, "OK");
             }
         }
 
