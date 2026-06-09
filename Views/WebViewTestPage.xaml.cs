@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Maui.Storage;
+using GeoTrackerApp3.Services;
 #if ANDROID
 using Android.Webkit;
 using AndroidX.Core.Content;
@@ -100,13 +101,7 @@ private class TrustedDomainWebViewClient : WebViewClient
         _onCustomUrl = onCustomUrl;
     }
 
-    private static readonly HashSet<string> TrustedHosts = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "picsconfig.ics.co.za",
-        "picsapiconfig.ics.co.za",
-        "picsapilive.ics.co.za",
-        "pics.ics.co.za"
-    };
+    private static readonly HashSet<string> TrustedHosts = EnvironmentConfig.AllTrustedHosts;
 
     public override void OnReceivedSslError(Android.Webkit.WebView view, SslErrorHandler handler, Android.Net.Http.SslError error)
     {
@@ -238,7 +233,8 @@ private class CustomWebChromeClient : WebChromeClient
 
                 Debug.WriteLine($"WebViewTestPage: CompanyID={_companyId}, ExpectedMemberID={_expectedMemberId}");
 
-                var url = $"https://pics.ics.co.za/Home/UserRegistration?companyID={_companyId}&source=mobile&faDebug=1";
+                var url = EnvironmentConfig.UserRegistrationUrl(_companyId);
+                
                 
                 TestWebView.Source = url;
                 Debug.WriteLine($"WebViewTestPage: Loading {url}");
@@ -246,7 +242,7 @@ private class CustomWebChromeClient : WebChromeClient
             catch (Exception ex)
             {
                 Debug.WriteLine($"WebViewTestPage: Error - {ex.Message}");
-                TestWebView.Source = "https://pics.ics.co.za/Home/UserRegistration?source=mobile&faDebug=1";
+                TestWebView.Source = EnvironmentConfig.UserRegistrationUrl(0);
             }
         }
 

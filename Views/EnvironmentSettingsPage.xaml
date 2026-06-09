@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GeoTrackerApp3.Views.EnvironmentSettingsPage"
+             Title="Environment Settings"
+             BackgroundColor="{StaticResource PageBackground}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="20">
+
+            <!-- Warning banner -->
+            <Border BackgroundColor="#FFF3CD"
+                    StrokeShape="RoundRectangle 8"
+                    Stroke="#FFE69C"
+                    StrokeThickness="1"
+                    Padding="16">
+                <Label Text="Developer/Tester Settings - Changing the environment will direct all API calls and web views to a different server."
+                       FontSize="13"
+                       TextColor="#664D03"
+                       LineBreakMode="WordWrap" />
+            </Border>
+
+            <!-- Current environment display -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Current Environment"
+                       FontSize="13"
+                       TextColor="{StaticResource TextSecondary}" />
+                <Label x:Name="CurrentEnvLabel"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource TextPrimary}" />
+                <Label x:Name="CurrentApiUrlLabel"
+                       FontSize="12"
+                       TextColor="{StaticResource TextMuted}" />
+            </VerticalStackLayout>
+
+            <!-- Environment options -->
+            <Label Text="Select Environment"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource TextPrimary}"
+                   Margin="0,8,0,0" />
+
+            <Border BackgroundColor="{StaticResource CardBackground}"
+                    StrokeShape="RoundRectangle 12"
+                    Stroke="{StaticResource Border}"
+                    StrokeThickness="1"
+                    Padding="8">
+                <VerticalStackLayout Spacing="0">
+                    <RadioButton x:Name="RadioLive"
+                                 Content="Live (Production)"
+                                 GroupName="Environment"
+                                 CheckedChanged="OnEnvironmentChanged" />
+                    <BoxView HeightRequest="1" Color="{StaticResource Border}" Margin="12,0" />
+                    <RadioButton x:Name="RadioPreProd"
+                                 Content="PreProd"
+                                 GroupName="Environment"
+                                 CheckedChanged="OnEnvironmentChanged" />
+                    <BoxView HeightRequest="1" Color="{StaticResource Border}" Margin="12,0" />
+                    <RadioButton x:Name="RadioQA"
+                                 Content="QA"
+                                 GroupName="Environment"
+                                 CheckedChanged="OnEnvironmentChanged" />
+                    <BoxView HeightRequest="1" Color="{StaticResource Border}" Margin="12,0" />
+                    <RadioButton x:Name="RadioConfig"
+                                 Content="Config"
+                                 GroupName="Environment"
+                                 CheckedChanged="OnEnvironmentChanged" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- URL preview -->
+            <VerticalStackLayout Spacing="6" Margin="0,8,0,0">
+                <Label Text="Resolved URLs"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource TextSecondary}" />
+                <Label x:Name="ApiUrlPreview"
+                       FontSize="12"
+                       TextColor="{StaticResource TextMuted}" />
+                <Label x:Name="WebUrlPreview"
+                       FontSize="12"
+                       TextColor="{StaticResource TextMuted}" />
+            </VerticalStackLayout>
+
+            <!-- Done button -->
+            <Button Text="Done"
+                    Clicked="OnDoneClicked"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White"
+                    CornerRadius="12"
+                    HeightRequest="48"
+                    FontAttributes="Bold"
+                    Margin="0,12,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

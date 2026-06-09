@@ -9,11 +9,39 @@ namespace GeoTrackerApp3.Services
 {
     public static class ApiService
     {
-        private static readonly string BaseUrl = "https://picsapilive.ics.co.za";
-        
-        // Lazy initialization - only create HttpClient when needed
-        private static readonly Lazy<HttpClient> _lazyHttpClient = new Lazy<HttpClient>(CreateHttpClient);
-        private static HttpClient HttpClient => _lazyHttpClient.Value;
+        private static string BaseUrl => EnvironmentConfig.ApiBaseUrl;
+
+        // HttpClient that is recreated when environment changes
+        private static HttpClient? _httpClient;
+        private static readonly object _httpClientLock = new();
+        private static HttpClient HttpClient
+        {
+            get
+            {
+                if (_httpClient is null)
+                {
+                    lock (_httpClientLock)
+                    {
+                        _httpClient ??= CreateHttpClient();
+                    }
+                }
+                return _httpClient;
+            }
+        }
+
+        static ApiService()
+        {
+            EnvironmentConfig.OnEnvironmentChanged += InvalidateHttpClient;
+        }
+
+        private static void InvalidateHttpClient()
+        {
+            lock (_httpClientLock)
+            {
+                _httpClient?.Dispose();
+                _httpClient = null;
+            }
+        }
 
         // Cache IP address to avoid repeated network calls
         private static string _cachedIpAddress;
@@ -24,29 +52,31 @@ namespace GeoTrackerApp3.Services
 
         private static HttpClient CreateHttpClient()
         {
+            var apiHost = EnvironmentConfig.ApiHost;
+
 #if ANDROID
             var handler = new Xamarin.Android.Net.AndroidMessageHandler
             {
                 ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
                 {
                     // Only bypass validation for our API domain
-                    if (message.RequestUri?.Host == "picsapilive.ics.co.za")
+                    if (message.RequestUri?.Host == apiHost)
                         return true;
 
                     return errors == System.Net.Security.SslPolicyErrors.None;
                 }
             };
 #else
-var handler = new HttpClientHandler
-{
-    SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13,
-    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
-    {
-        if (message.RequestUri?.Host == "picsapilive.ics.co.za")
-            return true;
-        return errors == System.Net.Security.SslPolicyErrors.None;
-    }
-};
+            var handler = new HttpClientHandler
+            {
+                SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13,
+                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
+                {
+                    if (message.RequestUri?.Host == apiHost)
+                        return true;
+                    return errors == System.Net.Security.SslPolicyErrors.None;
+                }
+            };
 #endif
 
             return new HttpClient(handler)

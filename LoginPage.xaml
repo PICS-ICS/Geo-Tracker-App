@@ -15,7 +15,11 @@
                        HeightRequest="72"
                        Aspect="AspectFit"
                        HorizontalOptions="Center"
-                       Opacity="0.95" />
+                       Opacity="0.95">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLogoTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
             </VerticalStackLayout>
 
             <!-- Login Card -->

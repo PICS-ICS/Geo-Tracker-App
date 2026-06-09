@@ -9,7 +9,13 @@ namespace GeoTrackerApp3.Views
 {
     public partial class LoginPage : ContentPage
     {
-        private const string ForgotPasswordUrl = "https://pics.ics.co.za/Home/ForgetPassword";
+        private static string ForgotPasswordUrl => EnvironmentConfig.ForgotPasswordUrl;
+
+        // Secret tap counter for hidden settings
+        private int _secretTapCount;
+        private DateTime _lastTapTime = DateTime.MinValue;
+        private const int RequiredTaps = 5;
+        private static readonly TimeSpan TapWindow = TimeSpan.FromSeconds(3);
 
         protected override async void OnAppearing()
         {
@@ -110,6 +116,24 @@ namespace GeoTrackerApp3.Views
             BusyIndicator.IsVisible = isBusy;
             BusyIndicator.IsRunning = isBusy;
             LoginButton.IsEnabled = !isBusy;
+        }
+
+        private async void OnLogoTapped(object sender, TappedEventArgs e)
+        {
+            var now = DateTime.UtcNow;
+
+            // Reset counter if too much time has passed since last tap
+            if (now - _lastTapTime > TapWindow)
+                _secretTapCount = 0;
+
+            _lastTapTime = now;
+            _secretTapCount++;
+
+            if (_secretTapCount >= RequiredTaps)
+            {
+                _secretTapCount = 0;
+                await Navigation.PushModalAsync(new EnvironmentSettingsPage());
+            }
         }
     }
 }
