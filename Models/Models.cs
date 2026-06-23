@@ -77,15 +77,11 @@ namespace GeoTrackerApp3.Models
 
         [System.Text.Json.Serialization.JsonPropertyName("lon")]
         public double Lon { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("source")]
-        public string Source { get; set; } = string.Empty;
     }
 
     public class GeofenceResponse
     {
-        // The API wraps the geofence array in a "data" property.
-        [System.Text.Json.Serialization.JsonPropertyName("data")]
+        [System.Text.Json.Serialization.JsonPropertyName("locations")]
         public List<GeofenceLocation> Locations { get; set; } = new();
     }
 
