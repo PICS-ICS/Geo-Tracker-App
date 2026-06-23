@@ -381,10 +381,10 @@ namespace GeoTrackerApp3.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync(cts.Token);
-                    // Try parsing as a wrapper object with a "locations" property
+                    // The API wraps the points in an envelope: { success, message, data: [ ... ] }
                     var wrapper = JsonSerializer.Deserialize<GeofenceResponse>(json, AppJsonContext.Default.Options);
-                    if (wrapper?.Locations?.Count > 0)
-                        return wrapper.Locations;
+                    if (wrapper?.Data?.Count > 0)
+                        return wrapper.Data;
 
                     // Fallback: try parsing as a direct array of locations
                     var directList = JsonSerializer.Deserialize<List<GeofenceLocation>>(json, AppJsonContext.Default.Options);
