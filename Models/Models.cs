@@ -70,6 +70,21 @@ namespace GeoTrackerApp3.Models
         public string Message { get; set; } = string.Empty;
     }
 
+    public class GeofenceLocation
+    {
+        [System.Text.Json.Serialization.JsonPropertyName("lat")]
+        public double Lat { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("lon")]
+        public double Lon { get; set; }
+    }
+
+    public class GeofenceResponse
+    {
+        [System.Text.Json.Serialization.JsonPropertyName("locations")]
+        public List<GeofenceLocation> Locations { get; set; } = new();
+    }
+
     public class ApiResult
     {
         public bool IsSuccess { get; private set; }

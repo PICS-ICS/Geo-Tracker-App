@@ -7,6 +7,8 @@ namespace GeoTrackerApp3.Models;
 [JsonSerializable(typeof(AuthResponse))]
 [JsonSerializable(typeof(ErrorResponse))]
 [JsonSerializable(typeof(LocationData))]
+[JsonSerializable(typeof(GeofenceLocation))]
+[JsonSerializable(typeof(GeofenceResponse))]
 [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
 public partial class AppJsonContext : JsonSerializerContext
 {

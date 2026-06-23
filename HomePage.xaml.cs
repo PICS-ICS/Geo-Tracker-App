@@ -22,7 +22,7 @@ namespace GeoTrackerApp3.Views
         // Cache frequently accessed values to reduce SecureStorage calls
         private string _cachedMemberId;
         private string _cachedCompanyId;
-        private const int LOCATION_UPDATE_INTERVAL_MS = 10000;
+        private const int LOCATION_UPDATE_INTERVAL_MS = 300000; // 5 minutes
 
         public HomePage()
         {
@@ -37,6 +37,9 @@ namespace GeoTrackerApp3.Views
                 _token = await SecureStorage.GetAsync("api_token") ?? string.Empty;
                 _cachedMemberId = await SecureStorage.GetAsync("logged_in_memberID") ?? "0";
                 _cachedCompanyId = await SecureStorage.GetAsync("logged_in_companyID") ?? "0";
+
+                // Restore tracking state if it was active before the app was closed
+                await RestoreTrackingStateAsync();
             }
             catch (Exception ex)
             {
@@ -45,6 +48,39 @@ namespace GeoTrackerApp3.Views
                 _cachedMemberId = "0";
                 _cachedCompanyId = "0";
             }
+        }
+
+        /// <summary>
+        /// Restores the tracking UI and service if tracking was active before the app was closed/terminated.
+        /// </summary>
+        private async Task RestoreTrackingStateAsync()
+        {
+#if IOS
+            bool wasTracking = Preferences.Get("ios_tracking_active", false);
+            if (wasTracking && !string.IsNullOrEmpty(_token))
+            {
+                _isTracking = true;
+                _cts = new CancellationTokenSource();
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    ToggleTrackingButton.Text = "Stop Tracking";
+                    ToggleTrackingButton.BackgroundColor = Color.FromArgb("#EF4444");
+                    TrackingStatusFrame.Opacity = 1;
+                });
+
+                // Re-attach to the existing iOS location service instance or start a new one
+                _iOSLocationService = new GeoTrackerApp3.Platforms.iOS.iOSLocationService();
+                _iOSLocationService.Start(_token, Convert.ToInt32(_cachedMemberId), Convert.ToInt32(_cachedCompanyId));
+                _iOSLocationService.StartForegroundMode();
+
+                // Start the UI update loop
+                _ = StartTrackingAsync(_cts.Token);
+
+                Debug.WriteLine("[HomePage] Restored tracking state from previous session");
+            }
+#endif
+            await Task.CompletedTask;
         }
 
         private async void OnToggleTrackingClicked(object sender, EventArgs e)
@@ -165,6 +201,8 @@ namespace GeoTrackerApp3.Views
 #elif IOS
             _iOSLocationService = new GeoTrackerApp3.Platforms.iOS.iOSLocationService();
             _iOSLocationService.Start(_token, Convert.ToInt32(_cachedMemberId), Convert.ToInt32(_cachedCompanyId));
+            // App is currently in foreground, so ensure foreground mode (5-min pings)
+            _iOSLocationService.StartForegroundMode();
 #endif
         }
 
@@ -238,6 +276,9 @@ namespace GeoTrackerApp3.Views
                 }
 
                 SecureStorage.Remove("api_token");
+                SecureStorage.Remove("logged_in_memberID");
+                SecureStorage.Remove("logged_in_companyID");
+                Preferences.Remove("ios_tracking_active");
             }
             catch { }
 
@@ -253,6 +294,11 @@ namespace GeoTrackerApp3.Views
             // Always refresh sync status when returning to the page
             await UpdateSyncStatusAsync();
 
+#if IOS
+            // Notify iOS service that we're in foreground (5-minute interval)
+            _iOSLocationService?.StartForegroundMode();
+#endif
+
             // Restart the UI update loop if tracking is active but loop was stopped
             if (_isTracking && (_cts == null || _cts.IsCancellationRequested))
             {
@@ -266,10 +312,15 @@ namespace GeoTrackerApp3.Views
         {
             base.OnDisappearing();
             
-            // Only cancel in-app tracking loop — foreground service keeps running
+            // Only cancel in-app tracking loop - foreground service keeps running
             if (_isTracking)
             {
                 _cts?.Cancel();
+
+#if IOS
+                // Switch iOS service to background/geofence-only mode
+                _iOSLocationService?.EnterBackgroundMode();
+#endif
             }
         }
     }

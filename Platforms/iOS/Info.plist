@@ -27,9 +27,9 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We need your location to track your movement every 5 minutes.</string>
+	<string>We need your location to notify you when you enter or leave designated work zones and to track your position.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to track your movement every 5 minutes.</string>
+	<string>We need your location to track your position while you are using the app.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera access is required for face verification.</string>
 	<key>UIBackgroundModes</key>

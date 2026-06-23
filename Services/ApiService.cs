@@ -356,6 +356,48 @@ namespace GeoTrackerApp3.Services
             }
         }
 
+        /// <summary>
+        /// Fetches geofence locations for the specified member from the API.
+        /// Returns up to 20 lat/lon points that define 500m-radius geofence circles.
+        /// </summary>
+        public static async Task<List<GeofenceLocation>> GetGeofencesAsync(int memberId, double lat, double lon, string token)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(token))
+                    return new List<GeofenceLocation>();
+
+                var url = $"/api/LocationPings/Getgeofence?memberId={memberId}&lat={lat}&lon={lon}";
+                using var requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
+                requestMessage.Headers.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+                var response = await HttpClient.SendAsync(requestMessage, cts.Token);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync(cts.Token);
+                    // Try parsing as a wrapper object with a "locations" property
+                    var wrapper = JsonSerializer.Deserialize<GeofenceResponse>(json, AppJsonContext.Default.Options);
+                    if (wrapper?.Locations?.Count > 0)
+                        return wrapper.Locations;
+
+                    // Fallback: try parsing as a direct array of locations
+                    var directList = JsonSerializer.Deserialize<List<GeofenceLocation>>(json, AppJsonContext.Default.Options);
+                    return directList ?? new List<GeofenceLocation>();
+                }
+
+                System.Diagnostics.Debug.WriteLine($"[Geofence API] Server returned {(int)response.StatusCode}");
+                return new List<GeofenceLocation>();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[Geofence API] Error: {ex.Message}");
+                return new List<GeofenceLocation>();
+            }
+        }
+
         private static async Task<string?> TryGetErrorMessage(HttpResponseMessage response)
         {
             try
