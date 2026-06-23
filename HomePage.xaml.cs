@@ -22,7 +22,7 @@ namespace GeoTrackerApp3.Views
         // Cache frequently accessed values to reduce SecureStorage calls
         private string _cachedMemberId;
         private string _cachedCompanyId;
-        private const int LOCATION_UPDATE_INTERVAL_MS = 300000; // 5 minutes
+        private const int LOCATION_UPDATE_INTERVAL_MS = 10000; // 5 minutes
 
         public HomePage()
         {

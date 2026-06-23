@@ -98,8 +98,8 @@ namespace GeoTrackerApp3.Views
                     CurrentLonLabel.Text = "Unavailable";
                 }
 
-                // Refresh the "last sent" panel in case a ping went out while open.
                 ShowLastSentLocation();
+                // Refresh the "last sent" panel in case a ping went out while open.
 
                 // 2. Fetch the geofences for this member from the API.
                 double lat = current?.Latitude ?? 0;
@@ -136,9 +136,13 @@ namespace GeoTrackerApp3.Views
         {
             bool isInside = distanceMeters.HasValue && distanceMeters.Value <= GeofenceRadiusMeters;
 
+            var name = string.IsNullOrWhiteSpace(fence.Source)
+                ? $"Zone {index}"
+                : $"{FormatSource(fence.Source)} #{index}";
+
             return new GeofenceItem
             {
-                Name = $"Zone {index}",
+                Name = name,
                 Coordinates = $"{fence.Lat.ToString("F5", CultureInfo.InvariantCulture)}, {fence.Lon.ToString("F5", CultureInfo.InvariantCulture)}",
                 DistanceText = FormatDistance(distanceMeters),
                 StatusText = !distanceMeters.HasValue ? "Distance unknown"
@@ -151,6 +155,16 @@ namespace GeoTrackerApp3.Views
                                                           : isInside ? Color.FromArgb("#16A34A")
                                                                      : Color.FromArgb("#B45309")
             };
+        }
+
+        /// <summary>
+        /// Turns a raw API source value (e.g. "TaskQuestionnaire") into a friendlier label.
+        /// </summary>
+        private static string FormatSource(string source)
+        {
+            // Insert spaces before capital letters: "TaskQuestionnaire" -> "Task Questionnaire"
+            return System.Text.RegularExpressions.Regex.Replace(
+                source, "(?<=[a-z0-9])(?=[A-Z])", " ");
         }
 
         private static string FormatDistance(double? meters)
