@@ -125,6 +125,9 @@
 		<MauiXaml Update="Views\EnvironmentSettingsPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Views\GeofenceInfoPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\WebViewTestPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

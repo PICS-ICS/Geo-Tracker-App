@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GeoTrackerApp3.Views"
+             x:Class="GeoTrackerApp3.Views.GeofenceInfoPage"
+             x:DataType="vm:GeofenceInfoPage"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource PageBackground}">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Top App Bar -->
+        <Border Grid.Row="0"
+                BackgroundColor="{StaticResource CardBackground}"
+                StrokeThickness="0"
+                Padding="16,16"
+                StrokeShape="RoundRectangle 0">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Button Grid.Column="0"
+                        Text="&#x2039;"
+                        Clicked="OnBackClicked"
+                        FontSize="28"
+                        FontAttributes="Bold"
+                        TextColor="{StaticResource Primary}"
+                        BackgroundColor="Transparent"
+                        Padding="0"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        VerticalOptions="Center" />
+                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                    <Label Text="Location Details"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}" />
+                    <Label Text="Geofences &amp; activity"
+                           FontSize="12"
+                           TextColor="{StaticResource TextSecondary}" />
+                </VerticalStackLayout>
+                <Button Grid.Column="2"
+                        Text="Refresh"
+                        Clicked="OnRefreshClicked"
+                        FontSize="12"
+                        TextColor="{StaticResource Primary}"
+                        BackgroundColor="Transparent"
+                        BorderColor="{StaticResource Primary}"
+                        BorderWidth="1"
+                        CornerRadius="8"
+                        HeightRequest="36"
+                        Padding="12,0" />
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <RefreshView Grid.Row="1"
+                     x:Name="PageRefreshView"
+                     IsRefreshing="{Binding IsLoading}"
+                     Command="{Binding RefreshCommand}">
+            <ScrollView Padding="20,16">
+                <VerticalStackLayout Spacing="16">
+
+                    <!-- Current Location Card -->
+                    <Border BackgroundColor="{StaticResource CardBackground}"
+                            StrokeShape="RoundRectangle 14"
+                            Stroke="{StaticResource Border}"
+                            StrokeThickness="1"
+                            Padding="20"
+                            Shadow="{OnPlatform Default={Shadow Brush=#08000000, Offset='0,2', Radius=8}}">
+                        <VerticalStackLayout Spacing="16">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Your Current Location"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       VerticalOptions="Center" />
+                                <Label Grid.Column="1"
+                                       Text="&#x1F4CD;"
+                                       FontSize="18"
+                                       VerticalOptions="Center" />
+                            </Grid>
+
+                            <BoxView Color="{StaticResource Border}" HeightRequest="1" />
+
+                            <Grid RowDefinitions="Auto" ColumnDefinitions="*,*" ColumnSpacing="12">
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="LATITUDE"
+                                           FontSize="10"
+                                           TextColor="{StaticResource TextMuted}"
+                                           FontAttributes="Bold" />
+                                    <Label x:Name="CurrentLatLabel"
+                                           Text="&#x2014;"
+                                           FontSize="15"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource TextPrimary}" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                    <Label Text="LONGITUDE"
+                                           FontSize="10"
+                                           TextColor="{StaticResource TextMuted}"
+                                           FontAttributes="Bold" />
+                                    <Label x:Name="CurrentLonLabel"
+                                           Text="&#x2014;"
+                                           FontSize="15"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource TextPrimary}" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Last Ping Sent Card -->
+                    <Border BackgroundColor="{StaticResource CardBackground}"
+                            StrokeShape="RoundRectangle 14"
+                            Stroke="{StaticResource Border}"
+                            StrokeThickness="1"
+                            Padding="20"
+                            Shadow="{OnPlatform Default={Shadow Brush=#08000000, Offset='0,2', Radius=8}}">
+                        <VerticalStackLayout Spacing="16">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Last Location Sent"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       VerticalOptions="Center" />
+                                <Border Grid.Column="1"
+                                        BackgroundColor="{StaticResource Secondary}"
+                                        StrokeShape="RoundRectangle 12"
+                                        StrokeThickness="0"
+                                        Padding="10,5"
+                                        VerticalOptions="Center">
+                                    <Label x:Name="LastSentAgoLabel"
+                                           Text="&#x2014;"
+                                           FontSize="11"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource SecondaryDarkText}" />
+                                </Border>
+                            </Grid>
+
+                            <BoxView Color="{StaticResource Border}" HeightRequest="1" />
+
+                            <Grid RowDefinitions="Auto" ColumnDefinitions="*,*" ColumnSpacing="12">
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="LATITUDE"
+                                           FontSize="10"
+                                           TextColor="{StaticResource TextMuted}"
+                                           FontAttributes="Bold" />
+                                    <Label x:Name="LastLatLabel"
+                                           Text="&#x2014;"
+                                           FontSize="15"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource TextPrimary}" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                    <Label Text="LONGITUDE"
+                                           FontSize="10"
+                                           TextColor="{StaticResource TextMuted}"
+                                           FontAttributes="Bold" />
+                                    <Label x:Name="LastLonLabel"
+                                           Text="&#x2014;"
+                                           FontSize="15"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource TextPrimary}" />
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <Label x:Name="LastSentTimeLabel"
+                                   Text="No location has been sent yet."
+                                   FontSize="11"
+                                   TextColor="{StaticResource TextMuted}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Geofences Section Header -->
+                    <Grid ColumnDefinitions="*,Auto" Margin="4,4,4,0">
+                        <Label Text="Geofence Zones"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource TextPrimary}"
+                               VerticalOptions="Center" />
+                        <Border Grid.Column="1"
+                                BackgroundColor="{StaticResource Secondary}"
+                                StrokeShape="RoundRectangle 10"
+                                StrokeThickness="0"
+                                Padding="8,3"
+                                VerticalOptions="Center">
+                            <Label x:Name="GeofenceCountLabel"
+                                   Text="0"
+                                   FontSize="11"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource SecondaryDarkText}" />
+                        </Border>
+                    </Grid>
+
+                    <!-- Empty State -->
+                    <Border x:Name="EmptyStateBorder"
+                            BackgroundColor="#EFF6FF"
+                            StrokeShape="RoundRectangle 14"
+                            StrokeThickness="0"
+                            Padding="20"
+                            IsVisible="False">
+                        <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                            <Label Text="&#x1F5FA;"
+                                   FontSize="28"
+                                   HorizontalOptions="Center" />
+                            <Label Text="No geofence zones found"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   HorizontalOptions="Center" />
+                            <Label Text="Geofence zones assigned to you will appear here once they are available."
+                                   FontSize="12"
+                                   TextColor="{StaticResource TextSecondary}"
+                                   HorizontalTextAlignment="Center"
+                                   LineHeight="1.4" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Geofence List -->
+                    <CollectionView x:Name="GeofenceCollection"
+                                    ItemsSource="{Binding Geofences}"
+                                    SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:GeofenceItem">
+                                <Border BackgroundColor="{StaticResource CardBackground}"
+                                        StrokeShape="RoundRectangle 14"
+                                        Stroke="{StaticResource Border}"
+                                        StrokeThickness="1"
+                                        Padding="16"
+                                        Shadow="{OnPlatform Default={Shadow Brush=#08000000, Offset='0,2', Radius=6}}">
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+
+                                        <!-- Status indicator -->
+                                        <Border Grid.Column="0"
+                                                BackgroundColor="{Binding StatusBackground}"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 22"
+                                                WidthRequest="44"
+                                                HeightRequest="44"
+                                                VerticalOptions="Center">
+                                            <Label Text="{Binding StatusIcon}"
+                                                   FontSize="18"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                        </Border>
+
+                                        <!-- Name & coordinates -->
+                                        <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                                            <Label Text="{Binding Name}"
+                                                   FontSize="15"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource TextPrimary}" />
+                                            <Label Text="{Binding Coordinates}"
+                                                   FontSize="11"
+                                                   TextColor="{StaticResource TextMuted}" />
+                                            <Label Text="{Binding StatusText}"
+                                                   FontSize="12"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{Binding StatusTextColor}" />
+                                        </VerticalStackLayout>
+
+                                        <!-- Distance -->
+                                        <VerticalStackLayout Grid.Column="2" Spacing="2" VerticalOptions="Center" HorizontalOptions="End">
+                                            <Label Text="{Binding DistanceText}"
+                                                   FontSize="15"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource Primary}"
+                                                   HorizontalTextAlignment="End" />
+                                            <Label Text="away"
+                                                   FontSize="10"
+                                                   TextColor="{StaticResource TextMuted}"
+                                                   HorizontalTextAlignment="End" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!-- Info Card -->
+                    <Border BackgroundColor="#EFF6FF"
+                            StrokeShape="RoundRectangle 14"
+                            StrokeThickness="0"
+                            Padding="16">
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="&#x2139;"
+                                   FontSize="18"
+                                   VerticalOptions="Start" />
+                            <Label Text="Each geofence zone has a 500 m radius. Distances are measured in a straight line from your current location."
+                                   FontSize="12"
+                                   TextColor="{StaticResource TextSecondary}"
+                                   LineHeight="1.4"
+                                   VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                    </Border>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

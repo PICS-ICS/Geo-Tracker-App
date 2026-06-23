@@ -261,11 +261,21 @@ namespace GeoTrackerApp3.Views
             }
         }
 
+        private async void OnDetailsTabTapped(object sender, TappedEventArgs e)
+        {
+            // Navigate to the location details / geofence info screen
+            await Navigation.PushAsync(new GeofenceInfoPage());
+        }
+
+        private void OnHomeTabTapped(object sender, TappedEventArgs e)
+        {
+            // Already on the Home page — nothing to navigate to.
+        }
+
         private void OnLogoutClicked(object sender, EventArgs e)
         {
             try
             {
-                // Stop tracking and clean up resources
                 if (_isTracking)
                 {
                     _isTracking = false;

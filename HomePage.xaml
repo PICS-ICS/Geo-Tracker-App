@@ -202,10 +202,16 @@
                 <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" Spacing="2">
                     <Label Text="●" FontSize="18" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
                     <Label Text="Home" FontSize="10" TextColor="{StaticResource Primary}" FontAttributes="Bold" HorizontalOptions="Center" />
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnHomeTabTapped" />
+                    </VerticalStackLayout.GestureRecognizers>
                 </VerticalStackLayout>
                 <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="2">
                     <Label Text="◉" FontSize="18" TextColor="{StaticResource TextMuted}" HorizontalOptions="Center" />
-                    <Label Text="Tracking" FontSize="10" TextColor="{StaticResource TextMuted}" HorizontalOptions="Center" />
+                    <Label Text="Details" FontSize="10" TextColor="{StaticResource TextMuted}" HorizontalOptions="Center" />
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnDetailsTabTapped" />
+                    </VerticalStackLayout.GestureRecognizers>
                 </VerticalStackLayout>
                 <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" Spacing="2">
                     <Label Text="◯" FontSize="18" TextColor="{StaticResource TextMuted}" HorizontalOptions="Center" />

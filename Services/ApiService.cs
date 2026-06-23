@@ -270,6 +270,9 @@ namespace GeoTrackerApp3.Services
 
                 if (response.IsSuccessStatusCode)
                 {
+                    // Remember the last successfully sent location for the details screen
+                    LastLocationService.Record(request.lat, request.lon, request.pingTime);
+
                     // Connection is back — try syncing any queued pings in the background
                     _ = Task.Run(() => LocationQueueService.SyncAsync(token));
                     return ApiResult.Success("Location updated successfully.");
