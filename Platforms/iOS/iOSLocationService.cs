@@ -174,7 +174,7 @@ public class iOSLocationService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"[iOS Location] Resume error: {ex.Message}");
+            ErrorDisplayService.ShowError("iOS Resume", ex);
         }
     }
 
@@ -229,7 +229,7 @@ public class iOSLocationService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"[iOS Geofence] Load error: {ex.Message}");
+            ErrorDisplayService.ShowError("iOS Geofence", ex);
             // Fallback to significant location monitoring
             _locationManager?.StartMonitoringSignificantLocationChanges();
         }
@@ -347,7 +347,7 @@ public class iOSLocationService
 
     private void OnLocationManagerFailed(object? sender, NSErrorEventArgs e)
     {
-        Debug.WriteLine($"[iOS Location] Manager failed: {e.Error?.LocalizedDescription}");
+        ErrorDisplayService.ShowError("iOS Location", e.Error?.LocalizedDescription ?? "Location manager failed");
     }
 
     private void OnLocationsUpdated(object? sender, CLLocationsUpdatedEventArgs e)
@@ -362,7 +362,7 @@ public class iOSLocationService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"[iOS Location] LocationsUpdated error: {ex.Message}");
+            ErrorDisplayService.ShowError("iOS Location", ex);
         }
     }
 
@@ -424,7 +424,7 @@ public class iOSLocationService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"[iOS Location] Send error: {ex.Message}");
+            ErrorDisplayService.ShowError("iOS Location", ex);
         }
     }
 

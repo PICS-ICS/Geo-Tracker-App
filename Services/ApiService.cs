@@ -102,8 +102,9 @@ namespace GeoTrackerApp3.Services
                 _ipCacheTime = DateTime.UtcNow;
                 return _cachedIpAddress;
             }
-            catch
+            catch (Exception ex)
             {
+                ErrorDisplayService.ShowError("IP Lookup", ex);
                 // Return cached value or Unknown
                 return _cachedIpAddress ?? "Unknown";
             }
@@ -280,21 +281,26 @@ namespace GeoTrackerApp3.Services
                 else
                 {
                     var msg = await TryGetErrorMessage(response);
-                    return ApiResult.Failure(msg ?? $"Server returned {(int)response.StatusCode}");
+                    var error = msg ?? $"Server returned {(int)response.StatusCode}";
+                    ErrorDisplayService.ShowError("Send Location", error);
+                    return ApiResult.Failure(error);
                 }
             }
             catch (TaskCanceledException)
             {
+                ErrorDisplayService.ShowError("Send Location", "Request timed out — location queued.");
                 await LocationQueueService.EnqueueAsync(request);
                 return ApiResult.Failure("Request timed out — location queued.");
             }
-            catch (HttpRequestException)
+            catch (HttpRequestException ex)
             {
+                ErrorDisplayService.ShowError("Send Location", "Network error — location queued.", ex);
                 await LocationQueueService.EnqueueAsync(request);
                 return ApiResult.Failure("Network error — location queued.");
             }
             catch (Exception ex)
             {
+                ErrorDisplayService.ShowError("Send Location", ex);
                 await LocationQueueService.EnqueueAsync(request);
                 return ApiResult.Failure(ex.Message);
             }
@@ -338,7 +344,9 @@ namespace GeoTrackerApp3.Services
                      return ApiResult.Success("Batch synced successfully.");
                 
                  var msg = await TryGetErrorMessage(response);
-                 return ApiResult.Failure(msg ?? $"Server returned {(int)response.StatusCode}");
+                 var error = msg ?? $"Server returned {(int)response.StatusCode}";
+                 ErrorDisplayService.ShowError("Batch Sync", error);
+                 return ApiResult.Failure(error);
 
                 //// Temporary: send one by one until batch endpoint exists
                 //foreach (var location in locations)
@@ -351,10 +359,12 @@ namespace GeoTrackerApp3.Services
             }
             catch (TaskCanceledException)
             {
+                ErrorDisplayService.ShowError("Batch Sync", "Batch request timed out");
                 return ApiResult.Failure("Batch request timed out");
             }
             catch (Exception ex)
             {
+                ErrorDisplayService.ShowError("Batch Sync", ex);
                 return ApiResult.Failure(ex.Message);
             }
         }
@@ -391,12 +401,12 @@ namespace GeoTrackerApp3.Services
                     return directList ?? new List<GeofenceLocation>();
                 }
 
-                System.Diagnostics.Debug.WriteLine($"[Geofence API] Server returned {(int)response.StatusCode}");
+                ErrorDisplayService.ShowError("Geofence API", $"Server returned {(int)response.StatusCode}");
                 return new List<GeofenceLocation>();
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[Geofence API] Error: {ex.Message}");
+                ErrorDisplayService.ShowError("Geofence API", ex);
                 return new List<GeofenceLocation>();
             }
         }

@@ -63,7 +63,7 @@ namespace GeoTrackerApp3.Views
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[GeofenceInfo] Credential load error: {ex.Message}");
+                ErrorDisplayService.ShowError("Geofence Info", ex);
             }
         }
 
@@ -84,7 +84,7 @@ namespace GeoTrackerApp3.Views
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[GeofenceInfo] Location error: {ex.Message}");
+                    ErrorDisplayService.ShowError("Geofence Location", ex);
                 }
 
                 if (current != null)

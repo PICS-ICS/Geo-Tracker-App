@@ -27,9 +27,10 @@ namespace GeoTrackerApp3
                     });
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 // SecureStorage may fail on some devices; fall through to login
+                GeoTrackerApp3.Services.ErrorDisplayService.ShowError("Session", ex);
             }
         }
     }

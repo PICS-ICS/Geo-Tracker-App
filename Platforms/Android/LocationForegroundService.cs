@@ -83,7 +83,7 @@ namespace GeoTrackerApp3.Platforms.Android
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[BG Location] Error: {ex.Message}");
+                ErrorDisplayService.ShowError("Background Location", ex);
             }
         }
 

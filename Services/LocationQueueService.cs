@@ -114,7 +114,7 @@ public static class LocationQueueService
             }
             else
             {
-                Debug.WriteLine($"[LocationQueue] Batch sync failed: {result.ErrorMessage}");
+                ErrorDisplayService.ShowError("Location Queue", $"Batch sync failed: {result.ErrorMessage}");
             }
         }
         finally

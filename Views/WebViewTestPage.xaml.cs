@@ -241,7 +241,7 @@ private class CustomWebChromeClient : WebChromeClient
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"WebViewTestPage: Error - {ex.Message}");
+                ErrorDisplayService.ShowError("Face Verification", ex);
                 TestWebView.Source = EnvironmentConfig.UserRegistrationUrl(0);
             }
         }
@@ -372,7 +372,7 @@ private class CustomWebChromeClient : WebChromeClient
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error: {ex.Message}");
+                ErrorDisplayService.ShowError("Face Verification", ex);
                 _authResultTask?.SetResult(null);
                 CleanupWebView(); // Clean up before closing
                 await Navigation.PopModalAsync();
