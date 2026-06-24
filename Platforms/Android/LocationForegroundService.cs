@@ -42,7 +42,6 @@ namespace GeoTrackerApp3.Platforms.Android
             var notification = new NotificationCompat.Builder(this, channelId)
                 .SetContentTitle("ICS Flow Active")
                 .SetContentText("Tracking location in background")
-                .SetSmallIcon(Resource.Mipmap.appicon)
                 .SetOngoing(true)
                 .Build();
 
