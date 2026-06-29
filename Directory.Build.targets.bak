@@ -1,0 +1,5 @@
+<Project>
+  <Target Name="_NotifySpotlight">
+    <Message Text="Skipping Spotlight indexing override" Importance="high" />
+  </Target>
+</Project>

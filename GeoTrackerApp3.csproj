@@ -147,4 +147,7 @@
 		<EnableSpotlightIndexing>false</EnableSpotlightIndexing>
 	</PropertyGroup>
 
+  <PropertyGroup>
+    <DisableNotifySpotlight>true</DisableNotifySpotlight>
+  </PropertyGroup>
 </Project>
