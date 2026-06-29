@@ -448,4 +448,27 @@
         <Setter Property="SelectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
     </Style>
 
+    <!-- Form field helpers (used by Add/Edit Person and similar forms) -->
+    <Style TargetType="Label" x:Key="FieldLabel">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
+    </Style>
+
+    <Style TargetType="Border" x:Key="FieldBorder">
+        <Setter Property="BackgroundColor" Value="{StaticResource InputBackground}" />
+        <Setter Property="Stroke" Value="{StaticResource Border}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 10" />
+        <Setter Property="Padding" Value="12,2" />
+    </Style>
+
+    <Style TargetType="Entry" x:Key="FieldEntry">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource TextMuted}" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="HeightRequest" Value="44" />
+    </Style>
+
 </ResourceDictionary>

@@ -28,7 +28,7 @@
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>20</ApplicationVersion>
+		<ApplicationVersion>19</ApplicationVersion>
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
 		<WindowsPackageType>None</WindowsPackageType>
@@ -134,6 +134,9 @@
 		<MauiXaml Update="Views\PeoplePage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Views\PeoplePage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\WebViewTestPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
@@ -153,7 +156,4 @@
 		<EnableSpotlightIndexing>false</EnableSpotlightIndexing>
 	</PropertyGroup>
 
-  <PropertyGroup>
-    <DisableNotifySpotlight>true</DisableNotifySpotlight>
-  </PropertyGroup>
 </Project>
