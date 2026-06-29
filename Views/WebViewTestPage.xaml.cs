@@ -359,9 +359,9 @@ private class CustomWebChromeClient : WebChromeClient
                         result.Match = false;
                     }
 
-                    _authResultTask?.SetResult(result);
                     CleanupWebView(); // Clean up before closing
-                    await Navigation.PopModalAsync();
+                    await Navigation.PopModalAsync();                    _authResultTask?.SetResult(result);
+
                 }
                 else if (uri.Host == "face-cancelled")
                 {
