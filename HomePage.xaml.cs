@@ -267,13 +267,6 @@ namespace GeoTrackerApp3.Views
             await Navigation.PushAsync(new GeofenceInfoPage());
         }
 
-        private async void OnPeopleTabTapped(object sender, TappedEventArgs e)
-        {
-            // Navigate to the People (member list) screen
-            await Navigation.PushAsync(new PeoplePage());
-        }
-
-
         private void OnHomeTabTapped(object sender, TappedEventArgs e)
         {
             // Already on the Home page — nothing to navigate to.

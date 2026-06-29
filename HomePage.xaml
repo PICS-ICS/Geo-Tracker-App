@@ -198,7 +198,7 @@
                 StrokeThickness="0.5"
                 Padding="0,8"
                 Shadow="{OnPlatform Default={Shadow Brush=#10000000, Offset='0,-2', Radius=8}}">
-            <Grid ColumnDefinitions="*,*,*,*" Padding="16,4">
+            <Grid ColumnDefinitions="*,*,*" Padding="16,4">
                 <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" Spacing="2">
                     <Label Text="●" FontSize="18" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
                     <Label Text="Home" FontSize="10" TextColor="{StaticResource Primary}" FontAttributes="Bold" HorizontalOptions="Center" />
@@ -214,13 +214,6 @@
                     </VerticalStackLayout.GestureRecognizers>
                 </VerticalStackLayout>
                 <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" Spacing="2">
-                    <Label Text="👥" FontSize="18" TextColor="{StaticResource TextMuted}" HorizontalOptions="Center" />
-                    <Label Text="People" FontSize="10" TextColor="{StaticResource TextMuted}" HorizontalOptions="Center" />
-                    <VerticalStackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnPeopleTabTapped" />
-                    </VerticalStackLayout.GestureRecognizers>
-                </VerticalStackLayout>
-                <VerticalStackLayout Grid.Column="3" HorizontalOptions="Center" Spacing="2">
                     <Label Text="◯" FontSize="18" TextColor="{StaticResource TextMuted}" HorizontalOptions="Center" />
                     <Label Text="Profile" FontSize="10" TextColor="{StaticResource TextMuted}" HorizontalOptions="Center" />
                 </VerticalStackLayout>
